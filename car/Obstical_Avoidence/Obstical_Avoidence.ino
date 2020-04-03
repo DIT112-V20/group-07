@@ -23,7 +23,7 @@ void loop() {
   
   int distance = front.getDistance();
 
-  if (distance <= 15){ //stop when distance is less than 15 cm.
+  if (distance <= 15 && distance > 0){ //stop when distance is less than 15 cm.
   car.setSpeed(0);
   }
   else{
