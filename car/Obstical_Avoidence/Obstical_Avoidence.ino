@@ -1,4 +1,3 @@
-
 #include <Smartcar.h>
 
 int trigPin = 19; //D19
