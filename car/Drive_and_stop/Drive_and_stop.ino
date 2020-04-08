@@ -26,11 +26,11 @@ void loop() {
 
 //Method for stopping the car
 void drive(int TEMP) {
-  if (TEMP = 1) {
+  if (TEMP == 1) {
     car.setSpeed(SPEED);
   } 
   
-  if (TEMP = 0) {
+  if (TEMP == 0) {
     car.setSpeed(0);
   }
 }
