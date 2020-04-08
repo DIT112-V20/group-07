@@ -6,8 +6,6 @@ DifferentialControl control (leftMotor, rightMotor);
 SimpleCar car(control);
 
 const int SPEED = 40; //Speed is 40% of capacity
-const int MOVE = 1;
-const int STOP = 0; 
 
 void setup() {
   // put your setup code here, to run once:
@@ -18,19 +16,19 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   delay(500);
-  drive(MOVE);
+  drive(true);
   delay(500);
-  drive(STOP);
+  drive(false);
 
 }
 
 //Method for stopping the car
-void drive(int TEMP) {
-  if (TEMP == 1) {
-    car.setSpeed(SPEED);
-  } 
-  
-  if (TEMP == 0) {
-    car.setSpeed(0);
-  }
-}
+void drive(bool MOVE) {
+   if (MOVE == true) {
+     car.setSpeed(SPEED);
+
+   } else if (MOVE == false) {
+     car.setSpeed(0);
+
+   }
+ }
