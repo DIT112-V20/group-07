@@ -22,11 +22,10 @@ void loop() {
 //Method for stopping the car
 void stop() {
    car.setSpeed(0); 
-   
  }
 
 //Method for driving (straight) forward
  void driveForward (){
+  car.setAngle(-11.5);
   car.setSpeed(SPEED);
-  car.setAngle(0);
 }
