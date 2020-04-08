@@ -1,26 +1,34 @@
+#include <Smartcar.h>
 
-//Method for stoping the car 
-bool move;
-int speed = 40;
-int stop = 0; 
+BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
+BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
+DifferentialControl control (leftMotor, rightMotor);
+SimpleCar car(control);
 
-void drive(){
-  if (move = true) {
-    car.setSpeed(speed);
-    
-  } else if (move = false){
-    car.setSpeed(stop);
-    
-  }
-}
-
+const int SPEED = 40; //Speed is 40% of capacity
 
 void setup() {
   // put your setup code here, to run once:
-
+  Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
+  delay(500);
+  drive(true);
+  delay(1500);
+  drive(false);
+
+}
+
+//Method for stopping the car
+void drive(bool MOVE) {
+  if (MOVE = true) {
+    car.setSpeed(SPEED);
+
+  } else if (MOVE = false) {
+    car.setSpeed(0);
+
+  }
 }
