@@ -5,6 +5,8 @@ BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 SimpleCar car(control);
 
+const int SPEED = 40; //Speed is 40% of capacity
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -22,3 +24,9 @@ void stop() {
    car.setSpeed(0); 
    
  }
+
+//Method for driving (straight) forward
+ void driveForward (){
+  car.setSpeed(SPEED);
+  car.setAngle(0);
+}
