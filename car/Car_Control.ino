@@ -20,7 +20,7 @@ DirectionlessOdometer rightOdometer(
     []() { rightOdometer.update(); },
     pulsesPerMeter);
 
-DistanceCar car(control, leftOdometer, rightOdometer);
+SmartCar car(control, leftOdometer, rightOdometer);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -49,7 +49,12 @@ void stop() {
    
 void turnLeft(int angle){
  car.setSpeed(TURNING_SPEED);
- car.setAngle(-angle);
+ car.setAngle(STEERING_OFFSET - angle);
+}
+
+void turnRight(int angle) {
+  car.setSpeed(TURNING_SPEED);
+  car.setAngle(STEERING_OFFSET + angle);
 }
 
 void limitSpeed(int speed){

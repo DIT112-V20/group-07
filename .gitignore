@@ -3,4 +3,4 @@
 *.iml
 
 # Libraries
-car/libraries/
+*/libraries/
