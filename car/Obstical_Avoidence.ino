@@ -5,6 +5,7 @@ int echoPin = 5; //D5
 int MAX_DISTANCE = 300;
 
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
+/*
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
@@ -31,3 +32,4 @@ void loop() {
   }
   
 }
+*/

@@ -10,7 +10,7 @@ const int TURNING_SPEED = 40;
 const int STEERING_OFFSET = -11.5; //Steering angle is -11.5° to make the car drive straight
 
 
-SimpleCar car(control);
+SmartCar car(control);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -38,5 +38,5 @@ void stop() {
    
 void turnLeft(int angle){
  car.setSpeed(TURNING_SPEED);
- car.setAngle(-angle);
+ car.setAngle(STEERING_OFFSET - angle);
 }
