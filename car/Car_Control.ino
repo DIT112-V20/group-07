@@ -40,3 +40,8 @@ void turnLeft(int angle){
  car.setSpeed(TURNING_SPEED);
  car.setAngle(STEERING_OFFSET - angle);
 }
+
+void turnRight(int angle) {
+  car.setSpeed(TURNING_SPEED);
+  car.setAngle(STEERING_OFFSET + angle);
+}
