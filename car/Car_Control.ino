@@ -45,3 +45,7 @@ void turnRight(int angle) {
   car.setSpeed(TURNING_SPEED);
   car.setAngle(STEERING_OFFSET + angle);
 }
+//make car reverse
+void reverse(int speed){
+   car.setSpeed(-speed);
+  }
