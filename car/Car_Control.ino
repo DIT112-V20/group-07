@@ -6,6 +6,7 @@ DifferentialControl control (leftMotor, rightMotor);
 
 const auto pulsesPerMeter = 600;
 
+GY50 gyroscope(37);
 
 const int SPEED = 40; //Speed is 40% of capacity
 const int TURNING_SPEED = 40;
@@ -20,7 +21,7 @@ DirectionlessOdometer rightOdometer(
     []() { rightOdometer.update(); },
     pulsesPerMeter);
 
-SmartCar car(control, leftOdometer, rightOdometer);
+SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -56,6 +57,11 @@ void turnRight(int angle) {
   car.setSpeed(TURNING_SPEED);
   car.setAngle(STEERING_OFFSET + angle);
 }
+
+//make car reverse
+void reverse(int speed){
+   car.setSpeed(-speed);
+  }
 
 void limitSpeed(int speed){
    car.setSpeed(speed);
