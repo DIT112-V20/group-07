@@ -6,6 +6,7 @@ DifferentialControl control (leftMotor, rightMotor);
 SimpleCar car(control);
 
 const int SPEED = 40; //Speed is 40% of capacity
+const int STEERING_OFFSET = -11.5; //Speed is 40% of capacity
 
 void setup() {
   // put your setup code here, to run once:
@@ -26,6 +27,6 @@ void stop() {
 
 //Method for driving (straight) forward
  void driveForward (){
-  car.setAngle(-11.5);
+  car.setAngle(STEERING_OFFSET);
   car.setSpeed(SPEED);
 }
