@@ -1,37 +1,44 @@
-
 #include <Smartcar.h>
 
-int trigPin = 19; //D19
-int echoPin = 5; //D5
-int MAX_DISTANCE = 300;
-const int STEERING_OFFSET = -11.5;
-
-SR04 front(trigPin, echoPin, MAX_DISTANCE);
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
-DifferentialControl control(leftMotor, rightMotor);
-
+DifferentialControl control (leftMotor, rightMotor);
 SimpleCar car(control);
 
-void setup()
-{
+const int SPEED = 40; //Speed is 40% of capacity
+const int TURNING_SPEED = 40;
+const int STEERING_OFFSET = -11.5; //Steering angle is -11.5° to make the car drive straight
 
+
+SmartCar car(control);
+void setup() {
+  // put your setup code here, to run once:
   Serial.begin(9600);
-  
 }
 
 void loop() {
-  
-  int distance = front.getDistance();
+  // put your main code here, to run repeatedly:
 
-  if (distance <= 15 && distance > 0){ //stop when distance is less than 15 cm.
-  car.setSpeed(0);
-  }
-  else{
-    // Move forward in speed of 40% of the capacaty 
-    car.setSpeed(40);
-  }
-  
+  driveForward();
+  delay(1000);
+  turnLeft(20);
+  stop();
+}
+
+//Method for driving (straight) forward
+ void driveForward(){
+  car.setAngle(STEERING_OFFSET);
+  car.setSpeed(SPEED);
+ }
+
+//Method for stopping the car
+void stop() {
+  car.setSpeed(0); 
+ }
+   
+void turnLeft(int angle){
+ car.setSpeed(TURNING_SPEED);
+ car.setAngle(STEERING_OFFSET - angle);
 }
 
 void turnRight(int angle) {
