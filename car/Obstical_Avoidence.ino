@@ -1,26 +1,4 @@
-
-#include <Smartcar.h>
-
-int trigPin = 19; //D19
-int echoPin = 5; //D5
-int MAX_DISTANCE = 300;
-
-SR04 front(trigPin, echoPin, MAX_DISTANCE);
-
-BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
-BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
-DifferentialControl control(leftMotor, rightMotor);
-
-SimpleCar car(control);
-
-void setup()
-{
-
-  Serial.begin(9600);
-  
-}
-
-void loop() {
+void obstacleAvoidance() {
   
   int distance = front.getDistance();
 
@@ -33,4 +11,3 @@ void loop() {
   }
   
 }
-
