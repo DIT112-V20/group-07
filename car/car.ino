@@ -4,7 +4,9 @@
 int trigPin = 19; //D19
 int echoPin = 5; //D5
 int MAX_DISTANCE = 300;
-const auto pulsesPerMeter = 600;
+
+
+
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
@@ -34,20 +36,32 @@ void setup() {
 
 void loop() {
      // put your main code here, to run repeatedly:
-  driveForward();
-  delay(2000);
-  stop();
-  
-  turnLeft(90);
-  delay(1000);
-  turnRight(90);
-  delay(1000);
-  driveForward();
-  stop();
-  reverse(40);
-  delay(2000);
-  car.enableCruiseControl();
-  limitSpeed(0.05);
-  delay(2000);
-  
+  handleInput();
+}
+
+
+void handleInput() { //handle serial input if there is any
+       if (bluetooth.available()) {
+           char input;
+            while (bluetooth.available()) { input = bluetooth.read() }; //read till last character
+            switch (input) {
+                case 'l': //rotate counter-clockwise going forward
+                    turnLeft(TURN_ANGLE);
+                break;
+                case 'r': //turn clock-wise
+                    turnRight(TURN_ANGLE);
+                break;
+                case 'f': //go ahead
+                   driveForward();
+                break;
+                case 'b': //go back
+                    reverse();
+                break;
+                case 's':
+                    stop();
+                break;
+                default: //if you receive something that you don't know, just stop
+                    stop();
+            }
+       }
 }

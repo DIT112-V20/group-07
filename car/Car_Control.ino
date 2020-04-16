@@ -2,6 +2,7 @@
 const int SPEED = 40; //Speed is 40% of capacity
 const int TURNING_SPEED = 40;
 const int STEERING_OFFSET = -11.5; //Steering angle is -11.5° to make the car drive straight
+const int TURN_ANGLE = 80;
 
 //Method for driving (straight) forward
  void driveForward(){
