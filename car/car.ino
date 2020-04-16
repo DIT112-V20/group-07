@@ -27,11 +27,13 @@ DirectionlessOdometer rightOdometer(
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
 void setup() {
+    // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar"); //Name of the BT in the car
  }
 
 void loop() {
+     // put your main code here, to run repeatedly:
   driveForward();
   delay(2000);
   stop();
