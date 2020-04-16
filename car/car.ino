@@ -1,4 +1,5 @@
 #include <Smartcar.h>
+#include <BluetoothSerial.h>
 
 int trigPin = 19; //D19
 int echoPin = 5; //D5
@@ -10,8 +11,9 @@ BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 
 GY50 gyroscope(37);
-
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
+
+BluetoothSerial SerialBT;//fot the BT
 
 DirectionlessOdometer leftOdometer(
     smartcarlib::pins::v2::leftOdometerPin,
@@ -25,14 +27,11 @@ DirectionlessOdometer rightOdometer(
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
-  
-}
+  SerialBT.begin("Smartcar"); //Name of the BT in the car
+ }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
   driveForward();
   delay(2000);
   stop();
@@ -46,6 +45,7 @@ void loop() {
   reverse(40);
   delay(2000);
   car.enableCruiseControl();
-  limitSpeed(0.1);
+  limitSpeed(0.05);
+  delay(2000);
   
 }
