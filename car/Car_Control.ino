@@ -32,3 +32,29 @@ void reverse(int speed){
 void limitSpeed(int speed){
    car.setSpeed(speed);
 }
+
+//Makes the car travel a certain distance in centimeters. If centimeter is positive it goes forward, if centimeter is negative it oes backwards.
+void goDistance(long centimeters, float speed)
+{
+    if (centimeters == 0)
+    {
+        return;
+    }
+    // Ensures the speed is towards the correct direction
+    speed = smartcarlib::utils::getAbsolute(speed) * ((centimeters < 0) ? -1 : 1);
+    car.setAngle(0);
+    car.setSpeed(speed);
+
+    long initialDistance = car.getDistance();
+    bool hasReachedTargetDistance = false;
+    while (!hasReachedTargetDistance)
+    {
+        car.update();
+        auto currentDistance = car.getDistance();
+        auto travelledDistance = initialDistance > currentDistance
+                                     ? initialDistance - currentDistance
+                                     : currentDistance - initialDistance;
+        hasReachedTargetDistance = travelledDistance >= smartcarlib::utils::getAbsolute(centimeters);
+    }
+    car.setSpeed(0);
+}
