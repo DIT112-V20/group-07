@@ -11,6 +11,7 @@ const int STEERING_OFFSET = -11.5; //Steering angle is -11.5° to make the car d
 
 //Method for stopping the car
 void stop() {
+  car.setAngle(0);
   car.setSpeed(0); 
  }
    
@@ -26,6 +27,7 @@ void turnRight(int angle) {
 
 //make car reverse
 void reverse(int speed){
+   car.setAngle(STEERING_OFFSET);
    car.setSpeed(-speed);
   }
 
