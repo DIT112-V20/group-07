@@ -61,16 +61,30 @@ void loop() {
 void handleInput() { //handle serial input if there is any
 
        if (SerialBT.available()) {
-           String input;
-            while (SerialBT.available()) { input = SerialBT.read(); }; //read till last character
-            if (input.equals("f")){
-            driveForward();
-            }
-            if (input.equals("s")){
-            stop();
-            }
-
-       }
-
+    char input;
+    while (SerialBT.available()) {
+      input = SerialBT.read();
+    }; //read till last character
+    switch (input) {
+      case 'l': //rotate counter-clockwise going forward
+        turnLeft(TURN_ANGLE);
+        break;
+      case 'r': //turn clock-wise
+        turnRight(TURN_ANGLE);
+        break;
+      case 'f': //go ahead
+        driveForward();
+        break;
+      case 'b': //go back
+        reverse(REVERS_SPEED);
+        break;
+      case 's':
+        stop();
+        break;
+      default: //if you receive something that you don't know, just stop
+        stop();
+    }
+  }
+       
 }
 
