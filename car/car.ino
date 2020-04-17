@@ -28,18 +28,30 @@ DirectionlessOdometer rightOdometer(
 
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
+void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
+  if(event == ESP_SPP_SRV_OPEN_EVT){
+    Serial.println("Client Connected");
+  }
+ 
+  if(event == ESP_SPP_CLOSE_EVT ){
+    Serial.println("Client disconnected");
+    stop();
+  }
+}
+
 void setup() {
     // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar"); //Name of the BT in the car
-  
+
+  SerialBT.register_callback(callback);
+   
  }
 
 void loop() {
      // put your main code here, to run repeatedly:
-  handleInput();
+    handleInput();
 }
-
 
 void handleInput() { //handle serial input if there is any
        if (SerialBT.available()) {
