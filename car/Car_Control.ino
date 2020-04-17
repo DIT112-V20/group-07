@@ -64,5 +64,6 @@ void reverse(int speed){
   }
 
 void limitSpeed(int speed){
+   car.setAngle(STEERING_OFFSET);
    car.setSpeed(speed);
 }
