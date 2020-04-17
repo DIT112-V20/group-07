@@ -45,10 +45,13 @@ void handleInput() { //handle serial input if there is any
        if (SerialBT.available()) {
            String input;
             while (SerialBT.available()) { input = SerialBT.read(); }; //read till last character
-            if input.equals("f")
-            driveForward;
-            if input.equals("s")
+            if (input.equals("f")){
+            driveForward();
+            }
+            if (input.equals("s")){
             stop();
+            }
 
        }
 }
+
