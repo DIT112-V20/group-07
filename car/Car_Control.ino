@@ -11,6 +11,7 @@ const int STEERING_OFFSET = -11.5; //Steering angle is -11.5° to make the car d
 
 //Method for stopping the car
 void stop() {
+  car.setAngle(0);
   car.setSpeed(0); 
  }
    
@@ -26,12 +27,21 @@ void turnRight(int angle) {
 
 //make car reverse
 void reverse(int speed){
+   car.setAngle(STEERING_OFFSET);
    car.setSpeed(-speed);
   }
 
 void limitSpeed(int speed){
    car.setSpeed(speed);
 }
+
+void ledBlink(){
+  while (true){
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(1000);                       // wait for a second
+    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+    delay(1000);                       // wait for a second
+  }
 
 //Makes the car travel a certain distance in centimeters. If centimeter is positive it goes forward, if centimeter is negative it oes backwards.
 void goDistance(long centimeters, float speed)
