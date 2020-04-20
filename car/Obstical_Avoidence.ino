@@ -7,7 +7,7 @@ void obstacleAvoidance() {
   }
   else{
     // Move forward in speed of 40% of the capacaty 
-    driveForward();
+    handleInput();
   }
   
 }
