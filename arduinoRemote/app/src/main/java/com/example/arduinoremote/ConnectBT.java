@@ -37,22 +37,22 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
 
                         if(device.getName().equals(carName)) {
                             this.device = device;
+
+                            UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
+                            btSocket = device.createRfcommSocketToServiceRecord(uuid);
+                            btSocket.connect();
+                            btOutputStream = btSocket.getOutputStream();
+
                             break;
                         }
                     }
                 }
 
-            UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
-            btSocket = device.createRfcommSocketToServiceRecord(uuid);
-            btSocket.connect();
-            btOutputStream = btSocket.getOutputStream();
 
-            char msgDrive = 'f';
-            btOutputStream.write(msgDrive);
 
         }
-        catch (IOException e) {
-            ConnectSuccess = false;//if the try failed, you can check the exception here
+        catch (IOException ignored) {
+
         }
         return null;
     }

@@ -11,9 +11,10 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static String instruction = "s";
+    static char instruction = 's';
     Button forwardBut, stopBut;
     BluetoothSocket btSocket = null;
+    ConnectBT connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (btSocket == null) {
             Log.d("Testing","Build");
-            new ConnectBT().execute();
+            connection = new ConnectBT();
+            connection.execute();
         }
 
 
@@ -38,17 +40,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (btSocket != null) {
             switch (v.getId()) {
                 case R.id.forwardBut:
-                    instruction = "f";
+                    instruction = 'f';
                     try {
-                        btSocket.getOutputStream().write(instruction.getBytes());
+                        connection.btOutputStream.write(instruction);
                     } catch (IOException ignored) {
                     }
                     break;
 
                 case R.id.stopBut:
-                    instruction = "s";
+                    instruction = 's';
                     try {
-                        btSocket.getOutputStream().write(instruction.getBytes());
+                        connection.btOutputStream.write(instruction);
                     } catch (IOException ignored) {
                     }
                     break;
