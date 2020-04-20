@@ -3,19 +3,23 @@ package com.example.arduinoremote;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import java.io.OutputStream;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
 
 public class ConnectBT extends AsyncTask<Void, Void, Void> {
     private boolean ConnectSuccess = true; //if it's here, it's almost connected
-    String address = "24:6F:28:B6:09:A2"; //this should be the arduino cars bt address
+    String carName = "Smartcar"; //this should be the arduino cars bt address
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
-    static final UUID myUUID = UUID.fromString("25dd9b13-b489-4c34-a9b7-31fad9f63b4b");
+
+    BluetoothDevice device = null;
+    OutputStream btOutputStream;
 
 
     @Override
@@ -23,14 +27,29 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
         try {
             Log.d("Testing","Background");
 
-            if (btSocket == null || !isBtConnected) {
-                Log.d("Testing","IF");
                 myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
-                BluetoothDevice enhet = myBluetooth.getRemoteDevice(address);//connects to the device's address and checks if it's available
-                btSocket = enhet.createInsecureRfcommSocketToServiceRecord(myUUID);//create a RFCOMM (SPP) connection
-                BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                btSocket.connect();//start connection
-            }
+
+                Set<BluetoothDevice> pairedDevices = myBluetooth.getBondedDevices();
+
+                if(pairedDevices.size() > 0) {
+
+                    for(BluetoothDevice device: pairedDevices) {
+
+                        if(device.getName().equals(carName)) {
+                            this.device = device;
+                            break;
+                        }
+                    }
+                }
+
+            UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
+            btSocket = device.createRfcommSocketToServiceRecord(uuid);
+            btSocket.connect();
+            btOutputStream = btSocket.getOutputStream();
+
+            char msgDrive = 'f';
+            btOutputStream.write(msgDrive);
+
         }
         catch (IOException e) {
             ConnectSuccess = false;//if the try failed, you can check the exception here
