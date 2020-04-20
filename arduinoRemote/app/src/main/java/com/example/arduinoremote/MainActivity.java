@@ -1,6 +1,7 @@
 package com.example.arduinoremote;
 
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +21,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         if (btSocket == null) {
+            Log.d("Testing","Build");
             new ConnectBT().execute();
         }
+
 
         forwardBut = (Button) findViewById(R.id.forwardBut);
         stopBut = (Button) findViewById(R.id.stopBut);
