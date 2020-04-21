@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         stopBut = (Button) findViewById(R.id.stopBut);
         accelBar = (SeekBar) findViewById(R.id.accelBar);
         accelText = (TextView) findViewById(R.id.accelText);
+        accelBar.setProgress(50);
         enableSeekbar(accelBar);
         forwardBut.setOnClickListener(this);
         stopBut.setOnClickListener(this);
