@@ -56,7 +56,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  handleInput();
+  obstacleAvoidance();
 }
 
 void handleInput() { //handle serial input if there is any
