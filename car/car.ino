@@ -82,9 +82,6 @@ void handleInput() { //handle serial input if there is any
       case 'd': //go a sertian distance     
          goDistance(30, 30);     
       break;
-      case 'v': //drive at certain speed  
-         limitSpeed(20);     
-      break;
       case 's':
         stop();
         break;

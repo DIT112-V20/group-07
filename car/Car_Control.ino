@@ -1,11 +1,12 @@
 
 const int SPEED = 40; //Speed is 40% of capacity
 const int TURNING_SPEED = 40;
-const int STEERING_OFFSET = -11.5; //Steering angle is -11.5° to make the car drive straight
+const int STEERING_OFFSET_FORWARD = -11.5; //Steering angle is -11.5° to make the car drive straight
+const int STEERING_OFFSET_BAKWARDS = -6.7;
 
 //Method for driving (straight) forward
  void driveForward(){
-  car.setAngle(STEERING_OFFSET);
+  car.setAngle(STEERING_OFFSET_FORWARD);
   car.setSpeed(SPEED);
  }
 
@@ -17,24 +18,19 @@ void stop() {
    
 void turnLeft(int angle){
  car.setSpeed(TURNING_SPEED);
- car.setAngle(STEERING_OFFSET - angle);
+ car.setAngle(STEERING_OFFSET_FORWARD - angle);
 }
 
 void turnRight(int angle) {
   car.setSpeed(TURNING_SPEED);
-  car.setAngle(STEERING_OFFSET + angle);
+  car.setAngle(STEERING_OFFSET_FORWARD + angle);
 }
 
 //make car reverse
 void reverse(int speed){
-   car.setAngle(STEERING_OFFSET);
+   car.setAngle(STEERING_OFFSET_BAKWARDS);
    car.setSpeed(-speed);
   }
-
-void limitSpeed(int speed){
-   car.setAngle(STEERING_OFFSET);
-   car.setSpeed(speed);
-}
 
 void ledBlink(){
   while (true){
