@@ -7,13 +7,12 @@ int MAX_DISTANCE = 300;
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
-const int GYRO_OFFSET = 22;
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 
-GY50 gyroscope(GYRO_OFFSET);
+GY50 gyroscope(37);
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
 
 BluetoothSerial SerialBT;//for the BT
@@ -56,7 +55,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  obstacleAvoidance();
+  handleInput();
 }
 
 void handleInput() { //handle serial input if there is any
@@ -81,9 +80,6 @@ void handleInput() { //handle serial input if there is any
         break;
       case 'd': //go a sertian distance     
          goDistance(30, 30);     
-      break;
-      case 'v': //drive at certain speed  
-         limitSpeed(20);     
       break;
       case 's':
         stop();
