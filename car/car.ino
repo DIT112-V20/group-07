@@ -7,12 +7,13 @@ int MAX_DISTANCE = 300;
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
+const int GYRO_OFFSET = 22;
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 
-GY50 gyroscope(37);
+GY50 gyroscope(GYRO_OFFSET);
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
 
 BluetoothSerial SerialBT;//for the BT
