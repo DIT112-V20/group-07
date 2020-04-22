@@ -8,6 +8,7 @@ const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
 const int GYRO_OFFSET = 22;
+const int STOP_DIST = 15;
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
@@ -33,17 +34,8 @@ pulsesPerMeter);
 
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
-//Method that detects if the smartcar is connected to bluetooth
-void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
-  if (event == ESP_SPP_SRV_OPEN_EVT) { //If the smartcar has a bluetooth connection
-    digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
-  }
 
-  if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
-    stop();
-    ledBlink();
-  }
-}
+//-------------------------------Set Up and Loop----------------------------------------------------//
 
 void setup() {
   // put your setup code here, to run once:
@@ -59,9 +51,42 @@ void loop() {
   obstacleAvoidance();
 }
 
+//-------------------------------Set Up and Loop----------------------------------------------------//
+
+//Method that detects if the smartcar is connected to bluetooth
+void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
+  if (event == ESP_SPP_SRV_OPEN_EVT) { //If the smartcar has a bluetooth connection
+    digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
+  }
+
+  if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
+    stop();    
+    while (true){
+      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
+      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
+    }
+  }
+}
+
+void obstacleAvoidance() {
+  
+  int distance = front.getDistance();
+
+  if (distance <= STOP_DIST && distance > 0){ //stop when distance is less than 15 cm.
+    stop();
+  }
+  else{
+    // Move forward in speed of 40% of the capacaty 
+    handleInput();
+  }
+  
+}
+
 void handleInput() { //handle serial input if there is any
 
-       if (SerialBT.available()) {
+    if (SerialBT.available()) {
     char input;
     while (SerialBT.available()) {
       input = SerialBT.read();
