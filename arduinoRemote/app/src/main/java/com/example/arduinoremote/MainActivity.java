@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static char instruction = 's';
+    char instruction = 's';
     Button forwardBut, stopBut;
     ConnectBT connection;
 
@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            Log.d("Testing","Build");
-            connection = new ConnectBT();
-            connection.execute();
+        Log.d("Testing","Build");
+        connection = new ConnectBT();
+        connection.execute();
 
         forwardBut = (Button) findViewById(R.id.forwardBut);
         stopBut = (Button) findViewById(R.id.stopBut);
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.forwardBut:
                     instruction = 'f';
                     try {
+                        Log.d("Buttontest", "BUTTON F WORKS" + instruction);
                         connection.btOutputStream.write(instruction);
                     } catch (IOException ignored) {
                     }
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.stopBut:
                     instruction = 's';
                     try {
-                        connection.btOutputStream.write(instruction);
+                    Log.d("Buttontest", "BUTTON S WORKS" + instruction);
+                      connection.btOutputStream.write(instruction);
                     } catch (IOException ignored) {
                     }
                     break;

@@ -12,12 +12,9 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ConnectBT extends AsyncTask<Void, Void, Void> {
-    private boolean ConnectSuccess = true; //if it's here, it's almost connected
     String carName = "Smartcar"; //this should be the arduino cars bt address
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
-    private boolean isBtConnected = false;
-
     BluetoothDevice device = null;
     OutputStream btOutputStream;
 
@@ -37,23 +34,16 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
 
                         if(device.getName().equals(carName)) {
                             this.device = device;
-
                             UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
                             btSocket = device.createRfcommSocketToServiceRecord(uuid);
                             btSocket.connect();
                             btOutputStream = btSocket.getOutputStream();
-
-
                             break;
                         }
                     }
                 }
-
-
-
         }
         catch (IOException ignored) {
-
         }
         return null;
     }
