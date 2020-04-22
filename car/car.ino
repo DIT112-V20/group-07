@@ -87,7 +87,7 @@ void obstacleAvoidance() {
 
 void handleInput() { //handle serial input (String!!)
   if (SerialBT.available()) { 
-    String input = Serial.readStringUntil('\n');
+    String input = SerialBT.readStringUntil('\n');
     
     if (input.startsWith("v")) {
       int throttle = input.substring(1).toInt();
