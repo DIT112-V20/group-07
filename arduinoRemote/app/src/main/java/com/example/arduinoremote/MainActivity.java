@@ -90,23 +90,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     instruction = "b" + btAccelValue;
                 }
 
-                if (btSocket != null) {
                     try {
-                        btSocket.getOutputStream().write(instruction.getBytes());
+                        connection.btOutputStream.write(instruction.getBytes());
                     } catch (IOException ignored) {
                     }
-                }
+
             }else if(seekBar == steeringBar){
                      int btTurnValue = progress*5;
                     instruction = "t" + btTurnValue;
                     String angleText = "" + (progress*5);
                     steeringText.setText(angleText);
-                    if (btSocket != null) {
                         try {
-                            btSocket.getOutputStream().write(instruction.getBytes());
+                            connection.btOutputStream.write(instruction.getBytes());
                         } catch (IOException ignored) {
                         }
-                    }
+
                 }
             }
 
