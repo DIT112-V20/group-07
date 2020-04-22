@@ -61,6 +61,7 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 
   if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
     stop();    
+    
     while (true){
       digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
       delay(1000);                       // wait for a second
@@ -84,6 +85,28 @@ void obstacleAvoidance() {
   
 }
 
+void handleInput() { //handle serial input (String!!)
+  if (SerialBT.available()) { 
+    String input = Serial.readStringUntil('\n');
+    
+    if (input.startsWith("v")) {
+      int throttle = input.substring(1).toInt();
+      forward(throttle);
+    }
+
+    if (input.startsWith("b")) {
+      int throttle = input.substring(1).toInt();
+      reverse(throttle);
+    }
+
+    if (input.startsWith("t")) {
+      int throttle = input.substring(1).toInt();
+      turn(throttle);
+    }  
+  }
+}
+
+/*
 void handleInput() { //handle serial input if there is any
 
     if (SerialBT.available()) {
@@ -113,6 +136,6 @@ void handleInput() { //handle serial input if there is any
       default: //if you receive something that you don't know, just stop
         stop();
     }
-  }
-       
+  }       
 }
+*/
