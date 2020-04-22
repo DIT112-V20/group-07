@@ -62,6 +62,7 @@
 
     <SeekBar
         android:id="@+id/accelBar"
+        android:theme = "@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="293dp"
         android:layout_height="38dp"
         android:layout_marginStart="59dp"
@@ -85,10 +86,26 @@
         android:layout_marginEnd="177dp"
         android:layout_marginRight="177dp"
         android:layout_marginBottom="39dp"
-        android:text="TextView"
+        android:text="0"
         app:layout_constraintBottom_toTopOf="@+id/accelBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/reverseBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="162dp"
+        android:layout_marginLeft="162dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:layout_marginBottom="140dp"
+        android:text="switch to reverse mode"
+        app:layout_constraintBottom_toTopOf="@+id/steeringBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accelBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
