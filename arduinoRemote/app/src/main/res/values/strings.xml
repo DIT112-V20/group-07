@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">arduinoRemote</string>
+    <string name="reverse_but">Switch to reverse mode</string>
+    <string name="forward_but">Forward</string>
+    <string name="stop_but">Stop</string>
+    <string name="starting_value">0</string>
 </resources>

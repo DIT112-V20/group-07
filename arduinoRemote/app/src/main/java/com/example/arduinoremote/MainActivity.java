@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         if (btSocket == null) {
-           // new ConnectBT().execute();
+            new ConnectBT().execute();
         }
 
         forwardBut = (Button) findViewById(R.id.forwardBut);
