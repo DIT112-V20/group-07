@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static String instruction = "s";
     Button forwardBut, stopBut, reverseBut;
     SeekBar accelBar;
+    SeekBar steeringBar;
     TextView accelText;
+    TextView steeringText;
     BluetoothSocket btSocket = null;
     boolean isReversed = false;
 
@@ -30,14 +32,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         if (btSocket == null) {
-             new ConnectBT().execute();
+           //  new ConnectBT().execute();
         }
 
         // Setting up the buttons
         forwardBut = (Button) findViewById(R.id.forwardBut);
         stopBut = (Button) findViewById(R.id.stopBut);
         accelBar = (SeekBar) findViewById(R.id.accelBar);
+        steeringBar = (SeekBar) findViewById(R.id.steeringBar);
         accelText = (TextView) findViewById(R.id.accelText);
+        steeringText = (TextView) findViewById(R.id.steeringText);
         reverseBut = (Button) findViewById(R.id.reverseBut);
 
         // Configuring accelBar
@@ -45,8 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         accelBar.setMin(0);
         accelBar.setMax(5);
 
+        //configuring steeringBar
+        steeringBar.setProgress(0);
+        steeringBar.setMin(-18);
+        steeringBar.setMax(18);
+
         // Enabling all buttons to be able to handle inputs
         enableSeekbar(accelBar);
+        enableSeekbar(steeringBar);
         forwardBut.setOnClickListener(this);
         stopBut.setOnClickListener(this);
         reverseBut.setOnClickListener(this);
@@ -54,32 +64,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    public void enableSeekbar(SeekBar seekbar) {
+    public void enableSeekbar(final SeekBar seekbar) {
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-               int btAccelValue=0;
+                if (seekBar == accelBar){
+                    int btAccelValue = 0;
                 String speedText = "" + progress;
 
                 // if reverse mode is on, show and send negative values, otherwise show and send positive values
-               if(!isReversed) {
-                   accelText.setText(speedText);
+                if (!isReversed) {
+                    accelText.setText(speedText);
 
-                   btAccelValue = (progress * 20);
-                   instruction = "v" + btAccelValue;
-               }else{
-                   if (progress != 0){
-                   speedText = "-" + progress;}
-                   accelText.setText(speedText);
+                    btAccelValue = (progress * 20);
+                    instruction = "v" + btAccelValue;
+                } else {
+                    if (progress != 0) {
+                        speedText = "-" + progress;
+                    }
+                    accelText.setText(speedText);
 
-                   btAccelValue = (progress * 20);
-                   instruction = "b" + btAccelValue;
-               }
+                    btAccelValue = (progress * 20);
+                    instruction = "b" + btAccelValue;
+                }
 
                 if (btSocket != null) {
                     try {
                         btSocket.getOutputStream().write(instruction.getBytes());
                     } catch (IOException ignored) {
+                    }
+                }
+            }else if(seekBar == steeringBar){
+                     int btTurnValue = progress*5;
+                    instruction = "t" + btTurnValue;
+                    String angleText = "" + (progress*5);
+                    steeringText.setText(angleText);
+                    if (btSocket != null) {
+                        try {
+                            btSocket.getOutputStream().write(instruction.getBytes());
+                        } catch (IOException ignored) {
+                        }
                     }
                 }
             }
@@ -129,10 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         isReversed = true;
                         reverseBut.setText(R.string.forward_mode_but);
                         accelBar.setProgress(0);
+                        steeringBar.setProgress(0);
             }else{
                     isReversed = false;
                     reverseBut.setText(R.string.reverse_mode_but);
                     accelBar.setProgress(0);
+                    steeringBar.setProgress(0);
                     }
                     break;
             }
