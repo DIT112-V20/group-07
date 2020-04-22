@@ -102,7 +102,7 @@
         android:layout_marginEnd="162dp"
         android:layout_marginRight="162dp"
         android:layout_marginBottom="140dp"
-        android:text="@string/reverse_but"
+        android:text="@string/reverse_mode_but"
         app:layout_constraintBottom_toTopOf="@+id/steeringBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

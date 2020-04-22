@@ -33,14 +33,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new ConnectBT().execute();
         }
 
+        // Setting up the buttons
         forwardBut = (Button) findViewById(R.id.forwardBut);
         stopBut = (Button) findViewById(R.id.stopBut);
         accelBar = (SeekBar) findViewById(R.id.accelBar);
         accelText = (TextView) findViewById(R.id.accelText);
         reverseBut = (Button) findViewById(R.id.reverseBut);
+
+        // Configuring accelBar
         accelBar.setProgress(0);
         accelBar.setMin(0);
         accelBar.setMax(5);
+
+        // Enabling all buttons to be able to handle inputs
         enableSeekbar(accelBar);
         forwardBut.setOnClickListener(this);
         stopBut.setOnClickListener(this);
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                int btAccelValue=0;
                 String speedText = "" + progress;
+
+                // if reverse mode is on, show and send negative values, otherwise show and send positive values
                if(!isReversed) {
                    accelText.setText(speedText);
 
@@ -92,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //do something when the button is clicked
 
             switch (v.getId()) {
+
+                //send instruction to go forward
                 case R.id.forwardBut:
                     instruction = "f";
                     if (btSocket != null) {
@@ -102,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
 
+                    //send instruction to go backward
                 case R.id.stopBut:
                     instruction = "s";
                     if (btSocket != null) {
@@ -112,14 +122,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
 
+                    // Put the car in reverse mode and stop the car, and vice versa.
                 case R.id.reverseBut:
                     if (!isReversed){
                         isReversed = true;
-                        reverseBut.setText(" Switch to Forward mode");
+                        reverseBut.setText(R.string.forward_mode_but);
                         accelBar.setProgress(0);
             }else{
                     isReversed = false;
-                    reverseBut.setText("Switch to Reverse mode");
+                    reverseBut.setText(R.string.reverse_mode_but);
                     accelBar.setProgress(0);
                     }
                     break;
