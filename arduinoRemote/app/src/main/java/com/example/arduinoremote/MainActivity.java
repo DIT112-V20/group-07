@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         if (btSocket == null) {
-            new ConnectBT().execute();
+             new ConnectBT().execute();
         }
 
         // Setting up the buttons
@@ -66,15 +66,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    accelText.setText(speedText);
 
                    btAccelValue = (progress * 20);
+                   instruction = "v" + btAccelValue;
                }else{
                    if (progress != 0){
                    speedText = "-" + progress;}
                    accelText.setText(speedText);
 
-                   btAccelValue = (progress * -20);
+                   btAccelValue = (progress * 20);
+                   instruction = "b" + btAccelValue;
                }
 
-                instruction = "V" + btAccelValue;
                 if (btSocket != null) {
                     try {
                         btSocket.getOutputStream().write(instruction.getBytes());
