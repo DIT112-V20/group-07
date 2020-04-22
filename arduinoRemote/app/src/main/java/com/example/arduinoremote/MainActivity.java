@@ -2,6 +2,7 @@ package com.example.arduinoremote;
 
 import android.bluetooth.BluetoothSocket;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView steeringText;
     BluetoothSocket btSocket = null;
     boolean isReversed = false;
+    ConnectBT connection;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -31,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (btSocket == null) {
-           //  new ConnectBT().execute();
-        }
+        Log.d("Testing","Build");
+        connection = new ConnectBT();
+        connection.execute();
 
         // Setting up the buttons
         forwardBut = (Button) findViewById(R.id.forwardBut);
@@ -123,27 +125,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         //do something when the button is clicked
 
+        // that's why buttons are not clickable ;)
+
             switch (v.getId()) {
 
                 //send instruction to go forward
                 case R.id.forwardBut:
                     instruction = "f";
-                    if (btSocket != null) {
-                        try {
-                            btSocket.getOutputStream().write(instruction.getBytes());
-                        } catch (IOException ignored) {
-                        }
+                    try {
+                        Log.d("Buttontest", "BUTTON F WORKS" + instruction);
+                        connection.btOutputStream.write(instruction.getBytes());
+                    } catch (IOException ignored) {
                     }
                     break;
 
                     //send instruction to go backward
                 case R.id.stopBut:
                     instruction = "s";
-                    if (btSocket != null) {
-                        try {
-                            btSocket.getOutputStream().write(instruction.getBytes());
-                        } catch (IOException ignored) {
-                        }
+                    try {
+                    Log.d("Buttontest", "BUTTON S WORKS" + instruction);
+                      connection.btOutputStream.write(instruction.getBytes());
+                    } catch (IOException ignored) {
                     }
                     break;
 
