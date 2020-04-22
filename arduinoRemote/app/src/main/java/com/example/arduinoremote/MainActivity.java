@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     static char instruction = 's';
     Button forwardBut, stopBut;
-    BluetoothSocket btSocket = null;
     ConnectBT connection;
 
     @Override
@@ -21,12 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (btSocket == null) {
             Log.d("Testing","Build");
             connection = new ConnectBT();
             connection.execute();
-        }
-
 
         forwardBut = (Button) findViewById(R.id.forwardBut);
         stopBut = (Button) findViewById(R.id.stopBut);
@@ -37,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         //do something when the button is clicked
-        if (btSocket != null) {
+
+        // that's why buttons are not clickable ;)
+
             switch (v.getId()) {
                 case R.id.forwardBut:
                     instruction = 'f';
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
             }
-        }
+
     }
 }
 

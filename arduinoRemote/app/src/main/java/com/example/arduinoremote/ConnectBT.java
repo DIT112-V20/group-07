@@ -43,6 +43,7 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                             btSocket.connect();
                             btOutputStream = btSocket.getOutputStream();
 
+
                             break;
                         }
                     }
