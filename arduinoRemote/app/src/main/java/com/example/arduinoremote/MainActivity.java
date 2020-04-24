@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    String instruction = getResources().getString(R.string.forward_speed_character)+getResources().getString(R.string.base_value);
+    String instruction = "";
     Button forwardBut, stopBut, reverseBut, connectBut;
     SeekBar accelBar;
     SeekBar steeringBar;
