@@ -72,22 +72,22 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 }
 
 void obstacleAvoidance() {
-  
   int distance = front.getDistance();
 
   if (distance <= STOP_DIST && distance > 0){ //stop when distance is less than 15 cm.
     stop();
   }
   else{
-    // Move forward in speed of 40% of the capacaty 
     handleInput();
   }
-  
 }
 
 void handleInput() { //handle serial input (String!!)
   if (SerialBT.available()) { 
-    String input = SerialBT.readStringUntil('\n');
+    String input;
+    while (SerialBT.available()) { 
+      input = SerialBT.readStringUntil('\n');   
+    }; //read till last character
     
     if (input.startsWith("v")) {
       int throttle = input.substring(1).toInt();
@@ -105,37 +105,3 @@ void handleInput() { //handle serial input (String!!)
     }  
   }
 }
-
-/*
-void handleInput() { //handle serial input if there is any
-
-    if (SerialBT.available()) {
-    char input;
-    while (SerialBT.available()) {
-      input = SerialBT.read();
-    }; //read till last character
-    switch (input) {
-      case 'l': //rotate counter-clockwise going forward
-        turnLeft(TURN_ANGLE);
-        break;
-      case 'r': //turn clock-wise
-        turnRight(TURN_ANGLE);
-        break;
-      case 'f': //go ahead
-        driveForward();
-        break;
-      case 'b': //go back
-        reverse(REVERS_SPEED);
-        break;
-      case 'd': //go a sertian distance     
-         goDistance(30, 30);     
-      break;
-      case 's':
-        stop();
-        break;
-      default: //if you receive something that you don't know, just stop
-        stop();
-    }
-  }       
-}
-*/
