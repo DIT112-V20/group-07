@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">arduinoRemote</string>
+    <string name="reverse_mode_but">Switch to reverse mode</string>
+    <string name="forward_mode_but">Switch to forward mode</string>
+    <string name="forward_but">Start</string>
+    <string name="stop_but">Stop</string>
+    <string name="gear_string">Gear: \n</string>
+    <string name="connect">Connect to Bluetooth</string>
+    <string name="gear_header">Gear: \n0</string>
+    <string name="angle_header">Angle: \n0°</string>
+    <string name="angle_string">Angle: \n</string>
+    <string name="angle_symbol">°</string>
+    <string name="forward_speed_character">v</string>
+    <string name="backward_speed_character">b</string>
+    <string name="steering_character">t</string>
+    <string name="base_value">0</string>
 </resources>
