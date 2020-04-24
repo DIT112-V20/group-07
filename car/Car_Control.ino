@@ -1,13 +1,10 @@
-
-const int SPEED = 40; //Speed is 40% of capacity
-const int TURNING_SPEED = 40;
 const int STEERING_OFFSET_FORWARD = -11.5; //Steering angle is -11.5° to make the car drive straight
 const int STEERING_OFFSET_BAKWARDS = -6.7;
 
 //Method for driving (straight) forward
- void driveForward(){
+ void forward(int speed){
   car.setAngle(STEERING_OFFSET_FORWARD);
-  car.setSpeed(SPEED);
+  car.setSpeed(speed);
  }
 
 //Method for stopping the car
@@ -16,14 +13,8 @@ void stop() {
   car.setSpeed(0); 
  }
    
-void turnLeft(int angle){
- car.setSpeed(TURNING_SPEED);
- car.setAngle(STEERING_OFFSET_FORWARD - angle);
-}
-
-void turnRight(int angle) {
-  car.setSpeed(TURNING_SPEED);
-  car.setAngle(STEERING_OFFSET_FORWARD + angle);
+void turn(int angle){
+ car.setAngle(STEERING_OFFSET_FORWARD + angle);
 }
 
 //make car reverse
@@ -32,14 +23,6 @@ void reverse(int speed){
    car.setSpeed(-speed);
   }
 
-void ledBlink(){
-  while (true){
-    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delay(1000);                       // wait for a second
-    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-    delay(1000);                       // wait for a second
-  }
-}
 //Makes the car travel a certain distance in centimeters. If centimeter is positive it goes forward, if centimeter is negative it oes backwards.
 void goDistance(long centimeters, float speed)
 {

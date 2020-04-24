@@ -8,6 +8,7 @@ const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
 const int GYRO_OFFSET = 22;
+const int STOP_DIST = 15;
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
@@ -33,17 +34,8 @@ pulsesPerMeter);
 
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
-//Method that detects if the smartcar is connected to bluetooth
-void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
-  if (event == ESP_SPP_SRV_OPEN_EVT) { //If the smartcar has a bluetooth connection
-    digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
-  }
 
-  if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
-    stop();
-    ledBlink();
-  }
-}
+//-------------------------------Set Up and Loop----------------------------------------------------//
 
 void setup() {
   // put your setup code here, to run once:
@@ -59,35 +51,57 @@ void loop() {
   obstacleAvoidance();
 }
 
-void handleInput() { //handle serial input if there is any
+//-------------------------------Set Up and Loop----------------------------------------------------//
 
-       if (SerialBT.available()) {
-    char input;
-    while (SerialBT.available()) {
-      input = SerialBT.read();
-    }; //read till last character
-    switch (input) {
-      case 'l': //rotate counter-clockwise going forward
-        turnLeft(TURN_ANGLE);
-        break;
-      case 'r': //turn clock-wise
-        turnRight(TURN_ANGLE);
-        break;
-      case 'f': //go ahead
-        driveForward();
-        break;
-      case 'b': //go back
-        reverse(REVERS_SPEED);
-        break;
-      case 'd': //go a sertian distance     
-         goDistance(30, 30);     
-      break;
-      case 's':
-        stop();
-        break;
-      default: //if you receive something that you don't know, just stop
-        stop();
+//Method that detects if the smartcar is connected to bluetooth
+void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
+  if (event == ESP_SPP_SRV_OPEN_EVT) { //If the smartcar has a bluetooth connection
+    digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
+  }
+
+  if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
+    stop();    
+    
+    while (true){
+      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
+      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
     }
   }
-       
+}
+
+void obstacleAvoidance() {
+  int distance = front.getDistance();
+
+  if (distance <= STOP_DIST && distance > 0){ //stop when distance is less than 15 cm.
+    stop();
+  }
+  else{
+    handleInput();
+  }
+}
+
+void handleInput() { //handle serial input (String!!)
+  if (SerialBT.available()) { 
+    String input;
+    while (SerialBT.available()) { 
+      input = SerialBT.readStringUntil('\n');   
+    }; //read till last character
+    
+    if (input.startsWith("v")) {
+      int throttle = input.substring(1).toInt();
+      forward(throttle);
+    }
+
+    if (input.startsWith("b")) {
+      int throttle = input.substring(1).toInt();
+      reverse(throttle);
+    }
+
+    if (input.startsWith("t")) {
+      int throttle = input.substring(1).toInt();
+      turn(throttle);
+    }  
+  }
 }
