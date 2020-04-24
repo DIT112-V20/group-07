@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static String instruction = "s";
+    static String instruction = "v0";
     Button forwardBut, stopBut, reverseBut;
     SeekBar accelBar;
     SeekBar steeringBar;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("Testing","Build");
+        Log.d("Testing", "Build");
         connection = new ConnectBT();
         connection.execute();
 
@@ -65,57 +66,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     public void enableSeekbar(final SeekBar seekbar) {
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                               public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                if (seekBar == accelBar){
-                    int btAccelValue = 0;
-                String speedText = "" + progress;
+                                                   if (seekBar == accelBar) {
+                                                       int btAccelValue = 0;
+                                                       String speedText = "" + progress;
 
-                // if reverse mode is on, show and send negative values, otherwise show and send positive values
-                if (!isReversed) {
-                    accelText.setText(speedText);
+                                                       // if reverse mode is on, show negative values and send b+speed, otherwise show positive values and send v+speed.
+                                                       if (!isReversed) {
+                                                           accelText.setText(speedText);
 
-                    btAccelValue = (progress * 20);
-                    instruction = "v" + btAccelValue;
-                } else {
-                    if (progress != 0) {
-                        speedText = "-" + progress;
-                    }
-                    accelText.setText(speedText);
+                                                           btAccelValue = (progress * 20);
+                                                           instruction = "v" + btAccelValue + "\n";
+                                                       } else {
+                                                           if (progress != 0) {
+                                                               speedText = "-" + progress;
+                                                           }
+                                                           accelText.setText(speedText);
 
-                    btAccelValue = (progress * 20);
-                    instruction = "b" + btAccelValue;
-                }
+                                                           btAccelValue = (progress * 20);
+                                                           instruction = "b" + btAccelValue + "\n";
+                                                       }
+                                                       if (connection != null)
+                                                           try {
+                                                               connection.btOutputStream.write(instruction.getBytes());
+                                                           } catch (IOException ignored) {
+                                                           }
 
-                    try {
-                        connection.btOutputStream.write(instruction.getBytes());
-                    } catch (IOException ignored) {
-                    }
+                                                       // show the angle and send t+angle to the car.
+                                                   } else if (seekBar == steeringBar) {
+                                                       int btTurnValue = progress * 5;
+                                                       instruction = "t" + btTurnValue + "\n";
+                                                       String angleText = "" + (progress * 5);
+                                                       steeringText.setText(angleText);
+                                                       if (connection != null)
+                                                           try {
+                                                               connection.btOutputStream.write(instruction.getBytes());
+                                                           } catch (IOException ignored) {
+                                                           }
 
-            }else if(seekBar == steeringBar){
-                     int btTurnValue = progress*5;
-                    instruction = "t" + btTurnValue;
-                    String angleText = "" + (progress*5);
-                    steeringText.setText(angleText);
-                        try {
-                            connection.btOutputStream.write(instruction.getBytes());
-                        } catch (IOException ignored) {
-                        }
+                                                   }
+                                               }
 
-                }
-            }
+                                               public void onStartTrackingTouch(SeekBar seekBar) {
 
-            public void onStartTrackingTouch(SeekBar seekBar) {
+                                               }
 
-            }
+                                               public void onStopTrackingTouch(SeekBar seekBar) {
 
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        }
+                                               }
+                                           }
         );
     }
 
@@ -125,43 +127,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // that's why buttons are not clickable ;)
 
-            switch (v.getId()) {
+        switch (v.getId()) {
 
-                //send instruction to go forward
-                case R.id.forwardBut:
-                    instruction = "f";
-                    try {
-                        Log.d("Buttontest", "BUTTON F WORKS" + instruction);
-                        connection.btOutputStream.write(instruction.getBytes());
-                    } catch (IOException ignored) {
-                    }
-                    break;
+            //send instruction to go forward
+            case R.id.forwardBut:
+                if (accelBar.getProgress() == 0)
+                    accelBar.setProgress(1);
+                break;
 
-                    //send instruction to go backward
-                case R.id.stopBut:
-                    instruction = "s";
-                    try {
-                    Log.d("Buttontest", "BUTTON S WORKS" + instruction);
-                      connection.btOutputStream.write(instruction.getBytes());
-                    } catch (IOException ignored) {
-                    }
-                    break;
+            //send instruction to go backward
+            case R.id.stopBut:
+                accelBar.setProgress(0);
+                break;
 
-                    // Put the car in reverse mode and stop the car, and vice versa.
-                case R.id.reverseBut:
-                    if (!isReversed){
-                        isReversed = true;
-                        reverseBut.setText(R.string.forward_mode_but);
-                        accelBar.setProgress(0);
-                        steeringBar.setProgress(0);
-            }else{
+            // Put the car in reverse mode and stop the car, and vice versa.
+            case R.id.reverseBut:
+                if (!isReversed) {
+                    isReversed = true;
+                    reverseBut.setText(R.string.forward_mode_but);
+                    accelBar.setProgress(0);
+                    steeringBar.setProgress(0);
+                } else {
                     isReversed = false;
                     reverseBut.setText(R.string.reverse_mode_but);
                     accelBar.setProgress(0);
                     steeringBar.setProgress(0);
-                    }
-                    break;
-            }
+                }
+                break;
+        }
     }
 }
 
