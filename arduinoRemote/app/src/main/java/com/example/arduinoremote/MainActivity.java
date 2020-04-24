@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                                    if (seekBar == accelBar) {
                                                        int btAccelValue = 0;
-                                                       String speedText = "" + progress;
+                                                       String speedText = getResources().getString(R.string.gear_string) + progress;
 
                                                        // if reverse mode is on, show negative values and send b+speed, otherwise show positive values and send v+speed.
                                                        if (!isReversed) {
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                            instruction = "v" + btAccelValue + "\n";
                                                        } else {
                                                            if (progress != 0) {
-                                                               speedText = "-" + progress;
+                                                               speedText = getResources().getString(R.string.gear_string)+ "-" + progress;
                                                            }
                                                            accelText.setText(speedText);
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                    } else if (seekBar == steeringBar) {
                                                        int btTurnValue = progress * 5;
                                                        instruction = "t" + btTurnValue + "\n";
-                                                       String angleText = "" + (progress * 5);
+                                                       String angleText = getResources().getString(R.string.angle_string) + (progress * 5) + getResources().getString(R.string.angle_symbol);
                                                        steeringText.setText(angleText);
                                                        if (connection != null)
                                                            try {
