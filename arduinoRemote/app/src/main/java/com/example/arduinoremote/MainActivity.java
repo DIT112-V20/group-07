@@ -12,14 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOError;
 import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     static String instruction = "v0";
-    Button forwardBut, stopBut, reverseBut;
+    Button forwardBut, stopBut, reverseBut, connectBut;
     SeekBar accelBar;
     SeekBar steeringBar;
     TextView accelText;
@@ -35,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Log.d("Testing", "Build");
-        connection = new ConnectBT();
-        connection.execute();
 
         // Setting up the buttons
         forwardBut = (Button) findViewById(R.id.forwardBut);
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         accelText = (TextView) findViewById(R.id.accelText);
         steeringText = (TextView) findViewById(R.id.steeringText);
         reverseBut = (Button) findViewById(R.id.reverseBut);
+        connectBut = (Button) findViewById(R.id.connectBut);
 
         // Configuring accelBar
         accelBar.setProgress(0);
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         forwardBut.setOnClickListener(this);
         stopBut.setOnClickListener(this);
         reverseBut.setOnClickListener(this);
+        connectBut.setOnClickListener(this);
     }
 
 
@@ -154,6 +156,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     steeringBar.setProgress(0);
                 }
                 break;
+
+            //connect the app to the car via bluetooth
+            case R.id.connectBut:
+                connection = new ConnectBT();
+                connection.execute();
+                if (connection != null)
+                    connectBut.setVisibility(View.INVISIBLE);
         }
     }
 }

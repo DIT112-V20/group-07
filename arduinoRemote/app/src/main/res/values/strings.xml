@@ -5,4 +5,5 @@
     <string name="forward_but">Forward</string>
     <string name="stop_but">Stop</string>
     <string name="starting_value">0</string>
+    <string name="connect">Connect to Bluetooth</string>
 </resources>
