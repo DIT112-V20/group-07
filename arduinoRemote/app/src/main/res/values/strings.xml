@@ -10,4 +10,8 @@
     <string name="angle_header">Angle: \n0°</string>
     <string name="angle_string">Angle: \n</string>
     <string name="angle_symbol">°</string>
+    <string name="forward_speed_character">v</string>
+    <string name="backward_speed_character">b</string>
+    <string name="steering_character">t</string>
+    <string name="base_value">0</string>
 </resources>

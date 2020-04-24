@@ -20,13 +20,12 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    static String instruction = "v0";
+    String instruction = getResources().getString(R.string.forward_speed_character)+getResources().getString(R.string.base_value);
     Button forwardBut, stopBut, reverseBut, connectBut;
     SeekBar accelBar;
     SeekBar steeringBar;
     TextView accelText;
     TextView steeringText;
-    BluetoothSocket btSocket = null;
     boolean isReversed = false;
     ConnectBT connection;
 
@@ -70,56 +69,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void enableSeekbar(final SeekBar seekbar) {
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                                               public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                                                   if (seekBar == accelBar) {
-                                                       int btAccelValue = 0;
-                                                       String speedText = getResources().getString(R.string.gear_string) + progress;
+                if (seekBar == accelBar) {
+                    int btAccelValue = 0;
+                    final int MULTIPLIER = 20;
+                    String speedText = getResources().getString(R.string.gear_string) + progress;
 
-                                                       // if reverse mode is on, show negative values and send b+speed, otherwise show positive values and send v+speed.
-                                                       if (!isReversed) {
-                                                           accelText.setText(speedText);
+                    // if reverse mode is on, show negative values and send b+speed, otherwise show positive values and send v+speed.
+                    if (!isReversed) {
+                        accelText.setText(speedText);
 
-                                                           btAccelValue = (progress * 20);
-                                                           instruction = "v" + btAccelValue + "\n";
-                                                       } else {
-                                                           if (progress != 0) {
-                                                               speedText = getResources().getString(R.string.gear_string)+ "-" + progress;
-                                                           }
-                                                           accelText.setText(speedText);
+                        btAccelValue = (progress * MULTIPLIER);
+                        instruction = getResources().getString(R.string.forward_speed_character) + btAccelValue + "\n";
+                    } else {
+                        if (progress != 0) {
+                            speedText = getResources().getString(R.string.gear_string) + "-" + progress;
+                        }
+                        accelText.setText(speedText);
 
-                                                           btAccelValue = (progress * 20);
-                                                           instruction = "b" + btAccelValue + "\n";
-                                                       }
-                                                       if (connection != null)
-                                                           try {
-                                                               connection.btOutputStream.write(instruction.getBytes());
-                                                           } catch (IOException ignored) {
-                                                           }
+                        btAccelValue = (progress * MULTIPLIER);
+                        instruction = getResources().getString(R.string.backward_speed_character) + btAccelValue + "\n";
+                    }
+                    if (connection != null)
+                        try {
+                            connection.btOutputStream.write(instruction.getBytes());
+                        } catch (IOException ignored) {
+                        }
 
-                                                       // show the angle and send t+angle to the car.
-                                                   } else if (seekBar == steeringBar) {
-                                                       int btTurnValue = progress * 5;
-                                                       instruction = "t" + btTurnValue + "\n";
-                                                       String angleText = getResources().getString(R.string.angle_string) + (progress * 5) + getResources().getString(R.string.angle_symbol);
-                                                       steeringText.setText(angleText);
-                                                       if (connection != null)
-                                                           try {
-                                                               connection.btOutputStream.write(instruction.getBytes());
-                                                           } catch (IOException ignored) {
-                                                           }
+                    // show the angle and send t+angle to the car.
+                } else if (seekBar == steeringBar) {
+                    final int MULTIPLIER = 5;
+                    int btTurnValue = progress * MULTIPLIER;
+                    instruction = getResources().getString(R.string.steering_character) + btTurnValue + "\n";
+                    String angleText = getResources().getString(R.string.angle_string) + (progress * MULTIPLIER) + getResources().getString(R.string.angle_symbol);
+                    steeringText.setText(angleText);
+                    if (connection != null)
+                        try {
+                            connection.btOutputStream.write(instruction.getBytes());
+                        } catch (IOException ignored) {
+                        }
 
-                                                   }
-                                               }
+                }
+            }
 
-                                               public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-                                               }
+            }
 
-                                               public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
-                                               }
-                                           }
+            }
+        }
         );
     }
 
