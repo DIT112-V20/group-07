@@ -4,23 +4,29 @@
 #include <Wire.h>
 
 
-int trigPin = 19; //D19
-int echoPin = 5; //D5
+int trigPinFront = 19; //D19
+int echoPinFront = 5; //D5
 int MAX_DISTANCE = 300;
+
+int trigPinRight = 33; //D33
+int echoPinRight = 18; //D18
 
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
 const int GYRO_OFFSET = 22;
+
 const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
-const int SIDE_DIST = 300; //this distance is in millimiters for the side sensors
+const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
+const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 
 GY50 gyroscope(GYRO_OFFSET);
-SR04 front(trigPin, echoPin, MAX_DISTANCE);
+SR04 front(trigPinFront, echoPinFront, MAX_DISTANCE);
+SR04 right(trigPinRight, echoPinRight, MAX_DISTANCE);
 
 VL53L0X sensor;
 
@@ -53,7 +59,7 @@ void setup() {
   Wire.begin();
 
   sensor.setTimeout(500);
-  if (!sensor.init()){
+  if (!sensor.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
     while(1){}
     }
   sensor.startContinuous(); 
@@ -85,13 +91,14 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 }
 
 void obstacleAvoidance() {
-  int distance = front.getDistance();
-  int sideDistance = sensor.readRangeContinuousMillimeters();
+  int frontDistance = front.getDistance();
+  int leftDistance = sensor.readRangeContinuousMillimeters();
+  int rightDistance = right.getDistance();
 
-  if (distance <= STOP_DIST && distance > 0){ //stop when distance is less than 15 cm.
+  if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     stop();
   }
-  else if(sideDistance <= SIDE_DIST && sideDistance > 0){
+  else if(leftDistance <= LEFT_DIST && leftDistance > 0 || rightDistance <= RIGHT_DIST && rightDistance > 0){
     stop();
   }
   else{
