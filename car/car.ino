@@ -50,7 +50,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   obstacleAvoidance();
-  sendToBluetooth();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//

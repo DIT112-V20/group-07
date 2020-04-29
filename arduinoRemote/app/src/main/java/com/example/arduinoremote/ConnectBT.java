@@ -3,8 +3,11 @@ package com.example.arduinoremote;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+
+import java.io.InputStream;
 import java.io.OutputStream;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 import java.io.IOException;
@@ -17,6 +20,8 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
     BluetoothSocket btSocket = null;
     BluetoothDevice device = null;
     OutputStream btOutputStream;
+    InputStream btInputStream;
+    Boolean stopWorker;
 
 
     @Override
@@ -38,6 +43,7 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                             btSocket = device.createRfcommSocketToServiceRecord(uuid);
                             btSocket.connect();
                             btOutputStream = btSocket.getOutputStream();
+                            btInputStream = btSocket.getInputStream();
                             break;
                         }
                     }
@@ -47,4 +53,23 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
         }
         return null;
     }
+
+    final Handler handler = new Handler();
+    workerThread = new Thread(new Runnable()
+    {
+        public void run() {
+            while(!Thread.currentThread().isInterrupted() && !stopWorker)
+            {
+                int bytesAvailable = btInputStream.available();
+                if(bytesAvailable > 0)
+                {
+                    byte[] packetBytes = new byte[bytesAvailable];
+                    btInputStream.read(packetBytes);
+                }
+            }
+        }
+    });
+        workerThread.start();
+
+
 }
