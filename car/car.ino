@@ -41,6 +41,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar"); //Name of the BT in the car
+  SerialBT.println("U,9600,N"); //Not sure if needed
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
 
@@ -49,6 +50,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   obstacleAvoidance();
+  sendToBluetooth();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
