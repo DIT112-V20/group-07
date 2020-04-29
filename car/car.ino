@@ -14,8 +14,6 @@ const int echoPinRight = 18; //D18
 const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
-const int TURN_ANGLE = 90; //Turn degree for turning on the spot 
-const int TURN_SPEED = 30; //Turn speed for turning on the spot 
 
 //Constructors to control the motors  
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
@@ -41,7 +39,6 @@ DirectionlessOdometer rightOdometer( smartcarlib::pins::v2::rightOdometerPin, []
 
 //Smartcar constructor 
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
-
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
 
@@ -85,6 +82,7 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
   }
 }
 
+//Main method that calls other methods, also avoids obsticles
 void obstacleAvoidance() {
   int frontDistance = front.getDistance();
   int leftDistance = left.readRangeContinuousMillimeters();
@@ -101,6 +99,7 @@ void obstacleAvoidance() {
   }
 }
 
+//Gets input from bluetooth and translate to commands for the car 
 void handleInput() { //handle serial input (String!!)
   if (SerialBT.available()) { 
     String input;
@@ -123,37 +122,4 @@ void handleInput() { //handle serial input (String!!)
       turn(throttle);
     }  
   }
-}
-
-void turnInPlace(bool TURN) {
-  int DEGREES;
-  int CURRENT_POS;
-  int TARGET_POS;
-  int SPEED;
-    
-  if (TURN) {             //Turn right
-    DEGREES = TURN_ANGLE; 
-    SPEED = TURN_SPEED;
-  } else {                //Turn left 
-    DEGREES = -TURN_ANGLE; 
-    SPEED = -TURN_SPEED;
-  }   
-  
-  gyroscope.update(); //Get current heading and save it.   
-  CURRENT_POS = gyroscope.getHeading();
-  
-  if (DEGREES + CURRENT_POS < 0) { // Calculate new heading and normalize it to [0-360).
-    TARGET_POS = 360 + DEGREES + CURRENT_POS;
-  } else {
-    TARGET_POS = DEGREES + CURRENT_POS;
-  }
-  
-  leftMotor.setSpeed(SPEED); //Invert motors to turn car in place. Right motors must turn
-  rightMotor.setSpeed(-SPEED); //forward while left goes backward in order to turn left
-  while (gyroscope.getHeading() < TARGET_POS - 3 || gyroscope.getHeading() > TARGET_POS + 3) {
-    gyroscope.update();
-  }
-  
-  stop();
-  gyroscope.update();
 }
