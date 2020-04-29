@@ -1,8 +1,11 @@
 #include <Smartcar.h>
 #include <BluetoothSerial.h>
+#include <SoftwareSerial.h>
 
 int trigPin = 19; //D19
 int echoPin = 5; //D5
+const int RXPin = 17, TXPin = 16;
+const uint32_t GPSBaud = 9600;
 int MAX_DISTANCE = 300;
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
@@ -18,6 +21,7 @@ GY50 gyroscope(GYRO_OFFSET);
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
 
 BluetoothSerial SerialBT;//for the BT
+SoftwareSerial SerialGPS(RXPin, TXPin);
 
 DirectionlessOdometer leftOdometer(
   smartcarlib::pins::v2::leftOdometerPin,
@@ -40,7 +44,8 @@ SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  SerialBT.begin("Smartcar"); //Name of the BT in the car
+  SerialBT.begin("Smartcar");//Name of the BT in the car
+  SerialGPS.begin(GPSBaud);//for communication between GPS module and esp32
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
 
@@ -49,6 +54,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   obstacleAvoidance();
+  parsedGPS();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
