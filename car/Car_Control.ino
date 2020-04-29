@@ -1,10 +1,16 @@
 const int STEERING_OFFSET_FORWARD = -11.5; //Steering angle is -11.5° to make the car drive straight
 const int STEERING_OFFSET_BAKWARDS = -6.7;
 
+bool TURN = true; //To test turn on spot-method, REMOVE when done!!!
+
 //Method for driving (straight) forward
  void forward(int speed){
   car.setAngle(STEERING_OFFSET_FORWARD);
   car.setSpeed(speed);
+
+  delay(5000);      //To test turnInPlace(), REMOVE when done!!!
+  turnInPlace(TURN);
+  
  }
 
 //Method for stopping the car

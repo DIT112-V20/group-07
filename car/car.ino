@@ -3,48 +3,43 @@
 #include <VL53L0X.h>
 #include <Wire.h>
 
+//Ultrasonic sensors 
+const int MAX_DISTANCE = 300;
+const int trigPinFront = 19; //D19
+const int echoPinFront = 5; //D5
+const int trigPinRight = 33; //D33
+const int echoPinRight = 18; //D18
 
-int trigPinFront = 19; //D19
-int echoPinFront = 5; //D5
-int MAX_DISTANCE = 300;
-
-int trigPinRight = 33; //D33
-int echoPinRight = 18; //D18
-
-const auto pulsesPerMeter = 600;
-const int TURN_ANGLE = 80;
-const int REVERS_SPEED = 40;
-const int GYRO_OFFSET = 22;
-
+//Constants 
 const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
+const int TURN_ANGLE = 90; //Turn degree for turning on the spot 
+const int TURN_SPEED = 30; //Turn speed for turning on the spot 
 
+//Constructors to control the motors  
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 
+//Gyroscope 
+const int GYRO_OFFSET = 22;
 GY50 gyroscope(GYRO_OFFSET);
+
+//Sensors 
 SR04 front(trigPinFront, echoPinFront, MAX_DISTANCE);
 SR04 right(trigPinRight, echoPinRight, MAX_DISTANCE);
+VL53L0X left;
 
-VL53L0X sensor;
+//Bluetooth
+BluetoothSerial SerialBT;
 
-BluetoothSerial SerialBT;//for the BT
+//Odometer 
+const auto pulsesPerMeter = 600;
+DirectionlessOdometer leftOdometer( smartcarlib::pins::v2::leftOdometerPin, []() { leftOdometer.update(); }, pulsesPerMeter);
+DirectionlessOdometer rightOdometer( smartcarlib::pins::v2::rightOdometerPin, []() {rightOdometer.update(); },pulsesPerMeter);
 
-DirectionlessOdometer leftOdometer(
-  smartcarlib::pins::v2::leftOdometerPin,
-[]() {
-  leftOdometer.update();
-},
-pulsesPerMeter);
-DirectionlessOdometer rightOdometer(
-  smartcarlib::pins::v2::rightOdometerPin,
-[]() {
-  rightOdometer.update();
-},
-pulsesPerMeter);
-
+//Smartcar constructor 
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
 
@@ -58,11 +53,11 @@ void setup() {
   SerialBT.register_callback(callback);
   Wire.begin();
 
-  sensor.setTimeout(500);
-  if (!sensor.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
+  left.setTimeout(500);
+  if (!left.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
     while(1){}
     }
-  sensor.startContinuous(); 
+  left.startContinuous(); 
 }
 
 void loop() {  
@@ -92,7 +87,7 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 
 void obstacleAvoidance() {
   int frontDistance = front.getDistance();
-  int leftDistance = sensor.readRangeContinuousMillimeters();
+  int leftDistance = left.readRangeContinuousMillimeters();
   int rightDistance = right.getDistance();
 
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
@@ -128,4 +123,37 @@ void handleInput() { //handle serial input (String!!)
       turn(throttle);
     }  
   }
+}
+
+void turnInPlace(bool TURN) {
+  int DEGREES;
+  int CURRENT_POS;
+  int TARGET_POS;
+  int SPEED;
+    
+  if (TURN) {             //Turn right
+    DEGREES = TURN_ANGLE; 
+    SPEED = TURN_SPEED;
+  } else {                //Turn left 
+    DEGREES = -TURN_ANGLE; 
+    SPEED = -TURN_SPEED;
+  }   
+  
+  gyroscope.update(); //Get current heading and save it.   
+  CURRENT_POS = gyroscope.getHeading();
+  
+  if (DEGREES + CURRENT_POS < 0) { // Calculate new heading and normalize it to [0-360).
+    TARGET_POS = 360 + DEGREES + CURRENT_POS;
+  } else {
+    TARGET_POS = DEGREES + CURRENT_POS;
+  }
+  
+  leftMotor.setSpeed(SPEED); //Invert motors to turn car in place. Right motors must turn
+  rightMotor.setSpeed(-SPEED); //forward while left goes backward in order to turn left
+  while (gyroscope.getHeading() < TARGET_POS - 3 || gyroscope.getHeading() > TARGET_POS + 3) {
+    gyroscope.update();
+  }
+  
+  stop();
+  gyroscope.update();
 }
