@@ -54,7 +54,10 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  parsedGPS();
+  Serial.print("test test \n")
+  SerialBT.print("test test \n")
+
+  delay(2000)
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
