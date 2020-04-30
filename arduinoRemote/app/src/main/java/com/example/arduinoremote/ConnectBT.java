@@ -22,7 +22,6 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
     OutputStream btOutputStream;
     InputStream btInputStream;
     Boolean stopWorker = false;
-    Thread workerThread;
     final char DELIMITER = '\n';
     byte[] readBuffer = new byte[256];
     int readBufferPosition;
@@ -49,6 +48,9 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                             btSocket.connect();
                             btOutputStream = btSocket.getOutputStream();
                             btInputStream = btSocket.getInputStream();
+
+                            workerThread thread = new workerThread();
+                            new Thread(thread).start();
                             break;
                         }
                     }
@@ -59,13 +61,10 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    public void listenToInput() {
-        final Handler handler = new Handler();
-        workerThread = new Thread(new Runnable() {
+        class workerThread implements Runnable{
             public void run() {
                 while (!Thread.currentThread().isInterrupted() && !stopWorker) {
                     try{
-
                         int bytesAvailable = btInputStream.available();
                         if (bytesAvailable > 0) {
                             byte[] packetBytes = new byte[bytesAvailable];
@@ -93,12 +92,9 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
 
 
                     } catch (IOException e){
-                      Log.e("Input", e.toString());
+                        Log.e("Input", e.toString());
                     }
                 }
             }
-        });
-        workerThread.start();
-    }
-
+        }
 }
