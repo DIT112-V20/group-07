@@ -3,8 +3,11 @@ package com.example.arduinoremote;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+
+import java.io.InputStream;
 import java.io.OutputStream;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 import java.io.IOException;
@@ -17,6 +20,12 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
     BluetoothSocket btSocket = null;
     BluetoothDevice device = null;
     OutputStream btOutputStream;
+    InputStream btInputStream;
+    Boolean stopWorker = false;
+    final char DELIMITER = '\n';
+    byte[] readBuffer = new byte[256];
+    int readBufferPosition;
+
 
 
     @Override
@@ -38,6 +47,10 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                             btSocket = device.createRfcommSocketToServiceRecord(uuid);
                             btSocket.connect();
                             btOutputStream = btSocket.getOutputStream();
+                            btInputStream = btSocket.getInputStream();
+
+                            workerThread thread = new workerThread();
+                            new Thread(thread).start();
                             break;
                         }
                     }
@@ -47,4 +60,41 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
         }
         return null;
     }
+
+        class workerThread implements Runnable{
+            public void run() {
+                while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+                    try{
+                        int bytesAvailable = btInputStream.available();
+                        if (bytesAvailable > 0) {
+                            byte[] packetBytes = new byte[bytesAvailable];
+                            btInputStream.read(packetBytes);
+
+                            for(int i=0;i<bytesAvailable;i++) {
+                                byte b = packetBytes[i];
+                                if(b == DELIMITER)
+                                {
+                                    byte[] encodedBytes = new byte[readBufferPosition];
+                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                    final String data = new String(encodedBytes, "US-ASCII");
+                                    readBufferPosition = 0;
+
+                                    //The variable data now contains our full command
+
+                                    Log.d("Input", data);
+                                }
+                                else
+                                {
+                                    readBuffer[readBufferPosition++] = b;
+                                }
+                            }
+                        }
+
+
+                    } catch (IOException e){
+                        Log.e("Input", e.toString());
+                    }
+                }
+            }
+        }
 }
