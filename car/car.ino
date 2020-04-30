@@ -54,10 +54,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.print("test test \n")
-  SerialBT.print("test test \n")
-
-  delay(2000)
+  obstacleAvoidance();
+  printToApp();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
