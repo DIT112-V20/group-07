@@ -44,6 +44,7 @@ SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  Serial.print("## Connection to computer established ## \n");
   SerialBT.begin("Smartcar");//Name of the BT in the car
   SerialGPS.begin(GPSBaud);//for communication between GPS module and esp32
   pinMode(LED_BUILTIN, OUTPUT);
@@ -53,7 +54,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  obstacleAvoidance();
   parsedGPS();
 }
 
