@@ -1,24 +1,38 @@
 #include <Smartcar.h>
 #include <BluetoothSerial.h>
 #include <SoftwareSerial.h>
+#include <VL53L0X.h>
+#include <Wire.h>
 
-int trigPin = 19; //D19
-int echoPin = 5; //D5
-const int RXPin = 17, TXPin = 16;
-const uint32_t GPSBaud = 9600;
+
+int trigPinFront = 19; //D19
+int echoPinFront = 5; //D5
 int MAX_DISTANCE = 300;
+
+int trigPinRight = 33; //D33
+int echoPinRight = 18; //D18
+
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
 const int GYRO_OFFSET = 22;
-const int STOP_DIST = 15;
+
+const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
+const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
+const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
+
+const int RXPin = 17, TXPin = 16;
+const uint32_t GPSBaud = 9600;
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
 
 GY50 gyroscope(GYRO_OFFSET);
-SR04 front(trigPin, echoPin, MAX_DISTANCE);
+SR04 front(trigPinFront, echoPinFront, MAX_DISTANCE);
+SR04 right(trigPinRight, echoPinRight, MAX_DISTANCE);
+
+VL53L0X sensor;
 
 BluetoothSerial SerialBT;//for the BT
 SoftwareSerial SerialGPS(RXPin, TXPin);
@@ -49,10 +63,16 @@ void setup() {
   SerialGPS.begin(GPSBaud);//for communication between GPS module and esp32
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
+  Wire.begin();
 
+  sensor.setTimeout(500);
+  if (!sensor.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
+    while(1){}
+    }
+  sensor.startContinuous(); 
 }
 
-void loop() {
+void loop() {  
   // put your main code here, to run repeatedly:
   obstacleAvoidance();
   printToApp();
@@ -79,9 +99,14 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 }
 
 void obstacleAvoidance() {
-  int distance = front.getDistance();
+  int frontDistance = front.getDistance();
+  int leftDistance = sensor.readRangeContinuousMillimeters();
+  int rightDistance = right.getDistance();
 
-  if (distance <= STOP_DIST && distance > 0){ //stop when distance is less than 15 cm.
+  if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
+    stop();
+  }
+  else if(leftDistance <= LEFT_DIST && leftDistance > 0 || rightDistance <= RIGHT_DIST && rightDistance > 0){
     stop();
   }
   else{
