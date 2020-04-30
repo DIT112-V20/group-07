@@ -21,7 +21,12 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
     BluetoothDevice device = null;
     OutputStream btOutputStream;
     InputStream btInputStream;
-    Boolean stopWorker;
+    Boolean stopWorker = false;
+    Thread workerThread;
+    final char DELIMITER = '\n';
+    byte[] readBuffer = new byte[256];
+    int readBufferPosition;
+
 
 
     @Override
@@ -54,22 +59,46 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    final Handler handler = new Handler();
-    workerThread = new Thread(new Runnable()
-    {
-        public void run() {
-            while(!Thread.currentThread().isInterrupted() && !stopWorker)
-            {
-                int bytesAvailable = btInputStream.available();
-                if(bytesAvailable > 0)
-                {
-                    byte[] packetBytes = new byte[bytesAvailable];
-                    btInputStream.read(packetBytes);
+    public void listenToInput() {
+        final Handler handler = new Handler();
+        workerThread = new Thread(new Runnable() {
+            public void run() {
+                while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+                    try{
+
+                        int bytesAvailable = btInputStream.available();
+                        if (bytesAvailable > 0) {
+                            byte[] packetBytes = new byte[bytesAvailable];
+                            btInputStream.read(packetBytes);
+
+                            for(int i=0;i<bytesAvailable;i++) {
+                                byte b = packetBytes[i];
+                                if(b == DELIMITER)
+                                {
+                                    byte[] encodedBytes = new byte[readBufferPosition];
+                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                    final String data = new String(encodedBytes, "US-ASCII");
+                                    readBufferPosition = 0;
+
+                                    //The variable data now contains our full command
+
+                                    Log.d("Input", data);
+                                }
+                                else
+                                {
+                                    readBuffer[readBufferPosition++] = b;
+                                }
+                            }
+                        }
+
+
+                    } catch (IOException e){
+                      Log.e("Input", e.toString());
+                    }
                 }
             }
-        }
-    });
+        });
         workerThread.start();
-
+    }
 
 }
