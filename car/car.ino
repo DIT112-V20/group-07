@@ -89,6 +89,7 @@ void obstacleAvoidance() {
   int rightDistance = right.getDistance();
 
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
+    stop();
     driveAroundObsticle();
   }
   /*
@@ -130,8 +131,8 @@ void handleInput() { //handle serial input (String!!)
 const int TURN_SPEED1 = 30; //Turn speed for turning on the spot [Only for testing!!!]
 const int lenghtOfCar = 5;
 const int lenghtOfSensor = 14;
-const int RIGHT_DIST1 = 30; // this distance is in cm and are for the sensor on the right side
-const int LEFT_DIST1 = 300; //this distance is in millimiters for the right side sensors
+const int RIGHT_DIST1 = 15; // this distance is in cm and are for the sensor on the right side
+const int LEFT_DIST1 = 150; //this distance is in millimiters for the right side sensors
 
 bool atObsticle = false;
 bool clearToTheLeft = true; 
@@ -142,26 +143,22 @@ void driveAroundObsticle(){
   checkFront();
   checkLeftSide();
   checkRightSide();
-  int speed = car.getSpeed();
   
-  if (!atObsticle){
-    forward(speed);
-
-  } else if (atObsticle && clearToTheRight) {
-    rotateOnSpot(90, TURN_SPEED1);
+ if (atObsticle && clearToTheRight) {
+    rotateOnSpot(-90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED1);
-    checkLeftSide();
     
     leftOdometer.update(); 
     rightOdometer.update(); 
 
-    while (!clearToTheLeft) {
+     while (left.readRangeContinuousMillimeters() <= LEFT_DIST1 && left.readRangeContinuousMillimeters() > 0 ) {
       forward(TURN_SPEED1);
-      checkLeftSide();
-    }
+     }
+
+    stop();
 
     goDistance(lenghtOfCar, TURN_SPEED1);
-    rotateOnSpot(-90, TURN_SPEED1);
+    rotateOnSpot(90, TURN_SPEED1);
 
     int lenghtOfDrive = lenghtOfCar + lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
 
@@ -169,45 +166,46 @@ void driveAroundObsticle(){
       forward(TURN_SPEED1);
     }
     
+    stop();
+    
     goDistance(lenghtOfCar, TURN_SPEED1);
-    rotateOnSpot(-90, TURN_SPEED1);
+    rotateOnSpot(90, TURN_SPEED1);
 
     goDistance(lenghtOfDrive, TURN_SPEED1);
-    rotateOnSpot(90, TURN_SPEED1);
-    forward(TURN_SPEED1); //for testing purposes 
+    rotateOnSpot(-90, TURN_SPEED1);
 
   } else if (atObsticle && clearToTheLeft){
-    rotateOnSpot(-90, TURN_SPEED1);
+    rotateOnSpot(90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED1);
-    checkRightSide();
     
     leftOdometer.update(); 
     rightOdometer.update(); 
 
-    while (!clearToTheRight) {
+      while (right.getDistance() <= RIGHT_DIST1 && right.getDistance() > 0 ) {
       forward(TURN_SPEED1);
-      checkRightSide();
     }
 
+    stop();
+
     goDistance(lenghtOfCar, TURN_SPEED1);
-    rotateOnSpot(90, TURN_SPEED1);
+    rotateOnSpot(-90, TURN_SPEED1);
 
     int lenghtOfDrive = lenghtOfCar + lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
 
     while (right.getDistance() <= RIGHT_DIST1 && right.getDistance() > 0 ) {
       forward(TURN_SPEED1);
     }
+
+    stop();
     
     goDistance(lenghtOfCar, TURN_SPEED1);
-    rotateOnSpot(90, TURN_SPEED1);
+    rotateOnSpot(-90, TURN_SPEED1);
 
     goDistance(lenghtOfDrive, TURN_SPEED1);
-    rotateOnSpot(-90, TURN_SPEED1);
-    forward(TURN_SPEED1); //for testing purposes 
+    rotateOnSpot(90, TURN_SPEED1);
   
   } else {
     rotateOnSpot(180, TURN_SPEED1);
-    stop();
   } 
   
   atObsticle = false;
@@ -219,19 +217,25 @@ void checkFront(){
   int frontDistance = front.getDistance();
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     atObsticle = true; 
-  }
+  }else {
+    atObsticle = false;
+   }
 }
 
 void checkLeftSide(){
   int leftDistance = left.readRangeContinuousMillimeters();
   if(leftDistance <= LEFT_DIST && leftDistance > 0 ){
     clearToTheLeft = false;
-  }
+  }else {
+    clearToTheLeft = true;
+   }
 }
 
 void checkRightSide(){
   int rightDistance = right.getDistance();
   if(rightDistance <= RIGHT_DIST && rightDistance > 0){
     clearToTheRight = false;
-  }
+  }else {
+    clearToTheRight = true;
+   }
 }
