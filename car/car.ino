@@ -138,10 +138,9 @@ void driveAroundObsticle(){
   checkLeftSide();
   checkRightSide();
   
- if (atObsticle == true && clearToTheRight == true) {
+ if (clearToTheRight) {
     rotateOnSpot(90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED2);
-    
     leftOdometer.update(); 
     rightOdometer.update(); 
     
@@ -149,7 +148,6 @@ void driveAroundObsticle(){
       forward(TURN_SPEED1);
     }
     stop();
-
     rotateOnSpot(-90, TURN_SPEED1);
 
     int lenghtOfDrive = lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
@@ -158,17 +156,15 @@ void driveAroundObsticle(){
       forward(TURN_SPEED1);
     }
     stop();
-    
     rotateOnSpot(-90, TURN_SPEED1);
 
     goDistance(lenghtOfDrive, TURN_SPEED2);
     rotateOnSpot(90, TURN_SPEED1);
 
   //---------------------------
-  } else if (atObsticle == true && clearToTheLeft == true){
+  } else if (clearToTheLeft){
     rotateOnSpot(-90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED2);
-    
     leftOdometer.update(); 
     rightOdometer.update(); 
 
@@ -176,7 +172,6 @@ void driveAroundObsticle(){
      forward(TURN_SPEED1);
     }
     stop();
-
     rotateOnSpot(90, TURN_SPEED1);
 
     int lenghtOfDrive =  lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
@@ -185,7 +180,6 @@ void driveAroundObsticle(){
       forward(TURN_SPEED1);
     }
     stop();
-    
     rotateOnSpot(90, TURN_SPEED1);
 
     goDistance(lenghtOfDrive, TURN_SPEED2);
