@@ -140,7 +140,7 @@ void driveAroundObsticle(){
   checkRightSide();
   
  if (atObsticle == true && clearToTheRight == true) {
-    rotateOnSpot(90, TURN_SPEED);
+    rotateOnSpot(90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED2);
     
     leftOdometer.update(); 
