@@ -89,11 +89,12 @@ void obstacleAvoidance() {
   int rightDistance = right.getDistance();
 
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
-    stop();
+    driveAroundObsticle();
   }
+  /*
   else if(leftDistance <= LEFT_DIST && leftDistance > 0 || rightDistance <= RIGHT_DIST && rightDistance > 0){
     stop();
-  }
+  } */
   else{
     handleInput();
   }
@@ -121,5 +122,116 @@ void handleInput() { //handle serial input (String!!)
       int throttle = input.substring(1).toInt();
       turn(throttle);
     }  
+  }
+}
+
+//-----------------------------------For testing------------------------------//
+
+const int TURN_SPEED1 = 30; //Turn speed for turning on the spot [Only for testing!!!]
+const int lenghtOfCar = 5;
+const int lenghtOfSensor = 14;
+const int RIGHT_DIST1 = 30; // this distance is in cm and are for the sensor on the right side
+const int LEFT_DIST1 = 300; //this distance is in millimiters for the right side sensors
+
+bool atObsticle = false;
+bool clearToTheLeft = true; 
+bool clearToTheRight = true; 
+
+
+void driveAroundObsticle(){
+  checkFront();
+  checkLeftSide();
+  checkRightSide();
+  int speed = car.getSpeed();
+  
+  if (!atObsticle){
+    forward(speed);
+
+  } else if (atObsticle && clearToTheRight) {
+    rotateOnSpot(90, TURN_SPEED1);
+    goDistance(lenghtOfSensor, TURN_SPEED1);
+    checkLeftSide();
+    
+    leftOdometer.update(); 
+    rightOdometer.update(); 
+
+    while (!clearToTheLeft) {
+      forward(TURN_SPEED1);
+      checkLeftSide();
+    }
+
+    goDistance(lenghtOfCar, TURN_SPEED1);
+    rotateOnSpot(-90, TURN_SPEED1);
+
+    int lenghtOfDrive = lenghtOfCar + lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
+
+    while (left.readRangeContinuousMillimeters() <= LEFT_DIST1 && left.readRangeContinuousMillimeters() > 0 ) {
+      forward(TURN_SPEED1);
+    }
+    
+    goDistance(lenghtOfCar, TURN_SPEED1);
+    rotateOnSpot(-90, TURN_SPEED1);
+
+    goDistance(lenghtOfDrive, TURN_SPEED1);
+    rotateOnSpot(90, TURN_SPEED1);
+    forward(TURN_SPEED1); //for testing purposes 
+
+  } else if (atObsticle && clearToTheLeft){
+    rotateOnSpot(-90, TURN_SPEED1);
+    goDistance(lenghtOfSensor, TURN_SPEED1);
+    checkRightSide();
+    
+    leftOdometer.update(); 
+    rightOdometer.update(); 
+
+    while (!clearToTheRight) {
+      forward(TURN_SPEED1);
+      checkRightSide();
+    }
+
+    goDistance(lenghtOfCar, TURN_SPEED1);
+    rotateOnSpot(90, TURN_SPEED1);
+
+    int lenghtOfDrive = lenghtOfCar + lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
+
+    while (right.getDistance() <= RIGHT_DIST1 && right.getDistance() > 0 ) {
+      forward(TURN_SPEED1);
+    }
+    
+    goDistance(lenghtOfCar, TURN_SPEED1);
+    rotateOnSpot(90, TURN_SPEED1);
+
+    goDistance(lenghtOfDrive, TURN_SPEED1);
+    rotateOnSpot(-90, TURN_SPEED1);
+    forward(TURN_SPEED1); //for testing purposes 
+  
+  } else {
+    rotateOnSpot(180, TURN_SPEED1);
+    stop();
+  } 
+  
+  atObsticle = false;
+  clearToTheLeft = true; 
+  clearToTheRight = true; 
+}
+
+void checkFront(){
+  int frontDistance = front.getDistance();
+  if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
+    atObsticle = true; 
+  }
+}
+
+void checkLeftSide(){
+  int leftDistance = left.readRangeContinuousMillimeters();
+  if(leftDistance <= LEFT_DIST && leftDistance > 0 ){
+    clearToTheLeft = false;
+  }
+}
+
+void checkRightSide(){
+  int rightDistance = right.getDistance();
+  if(rightDistance <= RIGHT_DIST && rightDistance > 0){
+    clearToTheRight = false;
   }
 }
