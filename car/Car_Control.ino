@@ -59,6 +59,8 @@ void goDistance(long centimeters, float speed)
    @param degrees   The degrees to rotate on spot. Positive values for clockwise
                     negative for counter-clockwise.
    @param speed     The speed to rotate
+   // minus = left
+   // plus = right 
 */
 void rotateOnSpot(int targetDegrees, int speed)
 {
@@ -72,7 +74,7 @@ void rotateOnSpot(int targetDegrees, int speed)
         car.overrideMotorSpeed(speed,
                                -speed); // left motors spin forward, right motors spin backward
     }
-    else
+//    else
     { // rotate counter clockwise
         car.overrideMotorSpeed(-speed,
                                speed); // left motors spin backward, right motors spin forward
