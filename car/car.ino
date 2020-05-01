@@ -124,11 +124,10 @@ void handleInput() { //handle serial input (String!!)
 //-----------------------------------For testing------------------------------//
 
 const int TURN_SPEED1 = 30; //Turn speed for turning on the spot [Only for testing!!!]
-const float TURN_SPEED2 = 30; //Turn speed for turning on the spot [Only for testing!!!]
-const long lenghtOfCar = 5;
-const long lenghtOfSensor = 14;
 const int RIGHT_DIST1 = 15; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST1 = 150; //this distance is in millimiters for the right side sensors
+const float TURN_SPEED2 = 30; //Turn speed for turning on the spot [Only for testing!!!]
+const long lenghtOfSensor = 14;
 
 bool atObsticle = false;
 bool clearToTheRight = true; 
@@ -145,31 +144,27 @@ void driveAroundObsticle(){
     
     leftOdometer.update(); 
     rightOdometer.update(); 
-
-    while (!clearToTheLeft) {
+    
+    while (left.readRangeContinuousMillimeters() <= LEFT_DIST1 && left.readRangeContinuousMillimeters() > 0 ) {
       forward(TURN_SPEED1);
-      checkLeftSide();
     }
-
     stop();
 
-    goDistance(lenghtOfCar, TURN_SPEED2);
     rotateOnSpot(-90, TURN_SPEED1);
 
-    int lenghtOfDrive = lenghtOfCar + lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
+    int lenghtOfDrive = lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
 
     while (left.readRangeContinuousMillimeters() <= LEFT_DIST1 && left.readRangeContinuousMillimeters() > 0 ) {
       forward(TURN_SPEED1);
     }
-    
     stop();
     
-    goDistance(lenghtOfCar, TURN_SPEED2);
     rotateOnSpot(-90, TURN_SPEED1);
 
     goDistance(lenghtOfDrive, TURN_SPEED2);
     rotateOnSpot(90, TURN_SPEED1);
 
+  //---------------------------
   } else if (atObsticle == true && clearToTheLeft == true){
     rotateOnSpot(-90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED2);
@@ -177,24 +172,20 @@ void driveAroundObsticle(){
     leftOdometer.update(); 
     rightOdometer.update(); 
 
-      while (right.getDistance() <= RIGHT_DIST1 && right.getDistance() > 0 ) {
-      forward(TURN_SPEED1);
+    while (right.getDistance() <= RIGHT_DIST1 && right.getDistance() > 0 ) {
+     forward(TURN_SPEED1);
     }
-
     stop();
 
-    goDistance(lenghtOfCar, TURN_SPEED2);
     rotateOnSpot(90, TURN_SPEED1);
 
-    int lenghtOfDrive = lenghtOfCar + lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
-
+    int lenghtOfDrive =  lenghtOfSensor + ((leftOdometer.getDistance() + rightOdometer.getDistance()) / 2);
+    
     while (right.getDistance() <= RIGHT_DIST1 && right.getDistance() > 0 ) {
       forward(TURN_SPEED1);
     }
-
     stop();
     
-    goDistance(lenghtOfCar, TURN_SPEED2);
     rotateOnSpot(90, TURN_SPEED1);
 
     goDistance(lenghtOfDrive, TURN_SPEED2);
