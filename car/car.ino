@@ -141,6 +141,9 @@ void driveAroundObsticle(){
  if (clearToTheRight) {
     rotateOnSpot(90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED2);
+
+    stop();
+    /*
     leftOdometer.update(); 
     rightOdometer.update(); 
     
@@ -161,10 +164,14 @@ void driveAroundObsticle(){
     goDistance(lenghtOfDrive, TURN_SPEED2);
     rotateOnSpot(90, TURN_SPEED1);
 
-  //---------------------------
+  */
   } else if (clearToTheLeft){
     rotateOnSpot(-90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED2);
+
+    stop(); 
+
+    /*
     leftOdometer.update(); 
     rightOdometer.update(); 
 
@@ -184,6 +191,8 @@ void driveAroundObsticle(){
 
     goDistance(lenghtOfDrive, TURN_SPEED2);
     rotateOnSpot(-90, TURN_SPEED1);
+    */
+
   
   } else {
     rotateOnSpot(180, TURN_SPEED1);
