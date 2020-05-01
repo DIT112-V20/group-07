@@ -91,12 +91,7 @@ void obstacleAvoidance() {
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     stop();
     driveAroundObsticle();
-  }
-  /*
-  else if(leftDistance <= LEFT_DIST && leftDistance > 0 || rightDistance <= RIGHT_DIST && rightDistance > 0){
-    stop();
-  } */
-  else{
+  } else {
     handleInput();
   }
 }
@@ -135,16 +130,15 @@ const int RIGHT_DIST1 = 15; // this distance is in cm and are for the sensor on 
 const int LEFT_DIST1 = 150; //this distance is in millimiters for the right side sensors
 
 bool atObsticle = false;
-bool clearToTheLeft = true; 
 bool clearToTheRight = true; 
-
+bool clearToTheLeft = true; 
 
 void driveAroundObsticle(){
   checkFront();
   checkLeftSide();
   checkRightSide();
   
- if (atObsticle && clearToTheRight) {
+ if (atObsticle == true && clearToTheRight == true) {
     rotateOnSpot(-90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED1);
     
@@ -174,7 +168,7 @@ void driveAroundObsticle(){
     goDistance(lenghtOfDrive, TURN_SPEED1);
     rotateOnSpot(-90, TURN_SPEED1);
 
-  } else if (atObsticle && clearToTheLeft){
+  } else if (atObsticle == true && clearToTheLeft == true){
     rotateOnSpot(90, TURN_SPEED1);
     goDistance(lenghtOfSensor, TURN_SPEED1);
     

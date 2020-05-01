@@ -53,37 +53,6 @@ void goDistance(long centimeters, float speed)
     car.setSpeed(0);
 }
 
-//Allows the car to turn on uts spot 
-void turnInPlace(bool TURN) {
-  int DEGREES;
-  int SPEED;    
-  if (TURN) {             //Turn right
-    DEGREES = TURN_ANGLE; 
-    SPEED = TURN_SPEED;
-  } else {                //Turn left 
-    DEGREES = -TURN_ANGLE; 
-    SPEED = -TURN_SPEED;
-  }   
-
-  gyroscope.update(); //Get current heading and save it.   
-  int CURRENT_POS = gyroscope.getHeading();
-  int TARGET_POS;
-  if (DEGREES + CURRENT_POS < 0) { // Calculate new heading and normalize it to [0-360).
-    TARGET_POS = 360 + DEGREES + CURRENT_POS;
-  } else {
-    TARGET_POS = DEGREES + CURRENT_POS;
-  }
-  
-  leftMotor.setSpeed(SPEED); //Invert motors to turn car in place. Right motors must turn
-  rightMotor.setSpeed(-SPEED); //forward while left goes backward in order to turn left
-  while (gyroscope.getHeading() < TARGET_POS - 3 || gyroscope.getHeading() > TARGET_POS + 3) {
-    gyroscope.update();
-  }
-  
-  stop();
-  gyroscope.update();
-}
-
 //---------------------------Dimitrios better turnInPlace()-----------------------
 /*
    Rotate the car on spot at the specified degrees with the certain speed
