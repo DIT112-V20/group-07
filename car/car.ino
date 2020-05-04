@@ -4,14 +4,15 @@
 
 int trigPin = 19; //D19
 int echoPin = 5; //D5
-const int RXPin = 17, TXPin = 16;
-const uint32_t GPSBaud = 9600;
+const int RXpin = 16, TXpin = 17; //pins for gps module
 int MAX_DISTANCE = 300;
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
 const int GYRO_OFFSET = 22;
 const int STOP_DIST = 15;
+
+
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
@@ -21,7 +22,7 @@ GY50 gyroscope(GYRO_OFFSET);
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
 
 BluetoothSerial SerialBT;//for the BT
-SoftwareSerial SerialGPS(RXPin, TXPin);
+SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
 
 DirectionlessOdometer leftOdometer(
   smartcarlib::pins::v2::leftOdometerPin,
@@ -45,7 +46,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar");//Name of the BT in the car
-  SerialGPS.begin(GPSBaud);//for communication between GPS module and esp32
+  Serial_connect.begin(9600);//for communication between GPS module and esp32
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
 
@@ -53,8 +54,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  obstacleAvoidance();
   parsedGPS();
+  obstacleAvoidance();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
