@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
+
 public class ConnectBT extends AsyncTask<Void, Void, Void> {
     final char DELIMITER = '\n';
     String carName = "Smartcar"; //this should be the arduino cars bt address
@@ -26,7 +27,11 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
     Boolean stopWorker = false;
     byte[] readBuffer = new byte[256];
     int readBufferPosition;
+    double[] position = new double[2];
 
+    public double[] getPosition(){
+        return position;
+    }
 
     @Override
     protected Void doInBackground(Void... devices) { //while the progress dialog is shown, the connection is done in background
@@ -48,6 +53,8 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                         btSocket.connect();
                         btOutputStream = btSocket.getOutputStream();
                         btInputStream = btSocket.getInputStream();
+
+                        final Handler handler = new Handler();
 
                         btInThread thread = new btInThread(); // creates a new thread for bluetooth input
                         new Thread(thread).start(); // starts the thread for bluetooth input
@@ -82,6 +89,12 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                                 //The variable data now contains our full command
 
                                 Log.d("Input", data);
+
+                                String[] separated = data.split("#");
+
+                                position[0] = Double.parseDouble(separated[0]); //latitude
+                                position[1] = Double.parseDouble(separated[1]); //longitude
+
                             } else {
                                 // If the current byte is not the end-message symbol, it places the currenty byte (b) in the readBuffer array and increments the pointer by 1
                                 readBuffer[readBufferPosition++] = b;
