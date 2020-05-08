@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothSocket;
 import java.io.InputStream;
 import java.io.OutputStream;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
 
 import java.io.IOException;
@@ -91,6 +90,8 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
                                 Log.d("Input", data);
 
                                 String[] separated = data.split("#");
+                                Log.d("Input", separated[0]);
+                                Log.d("Input", separated[1]);
 
                                 coordinates[0] = Double.parseDouble(separated[0]); //latitude
                                 coordinates[1] = Double.parseDouble(separated[1]); //longitude
