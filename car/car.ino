@@ -89,8 +89,6 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 //Main method that calls other methods, also avoids obsticles
 void obstacleAvoidance() {
   int frontDistance = front.getDistance();
-  int leftDistance = left.readRangeContinuousMillimeters();
-  int rightDistance = right.getDistance();
 
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     stop();
@@ -130,6 +128,7 @@ void driveAroundObstical(){
   int rightDistance = right.getDistance();
   
   if (rightDistance <= RIGHT_DIST && rightDistance > 0){     //Turn left if obstical on the right 
+    
     rotateOnSpot(TURN_LEFT, TURN_SPEED); 
     leftOdometer.reset();
     rightOdometer.reset();
@@ -142,7 +141,7 @@ void driveAroundObstical(){
     const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
     
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
-    goDistance(20, TURN_SPEED);      
+    goDistance(40, TURN_SPEED);      
     while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
          forward(TURN_SPEED);
     }
@@ -155,9 +154,51 @@ void driveAroundObstical(){
   }
   else if (leftDistance <= LEFT_DIST && leftDistance > 0){  //Turn right if obstical on the left 
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+    leftOdometer.reset();
+    rightOdometer.reset();
+    
+    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
+         forward(TURN_SPEED);
+    }
+    goDistance(15, TURN_SPEED);
+    stop();
+    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
+    
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    goDistance(40, TURN_SPEED);      
+    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
+         forward(TURN_SPEED);
+    }
+    stop();
+    
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    goDistance(odometerLength, TURN_SPEED);
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);     
+    
   }
-  else if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){ //if there is no obstical on either sides rotate 90 degrees to the left
+  else if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){ //if there is no obstical on either sides rotate 90 degrees to the right
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+    leftOdometer.reset();
+    rightOdometer.reset();
+    
+    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
+         forward(TURN_SPEED);
+    }
+    goDistance(15, TURN_SPEED);
+    stop();
+    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
+    
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    goDistance(40, TURN_SPEED);      
+    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
+         forward(TURN_SPEED);
+    }
+    stop();
+    
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    goDistance(odometerLength, TURN_SPEED);
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);     
+    
   }
   else{
     rotateOnSpot(TURN_AROUND, TURN_SPEED); //it rotates 180 degrees to the right.

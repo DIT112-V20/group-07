@@ -35,7 +35,7 @@ void goDistance(long centimeters, float speed)
     }
     // Ensures the speed is towards the correct direction
     speed = smartcarlib::utils::getAbsolute(speed) * ((centimeters < 0) ? -1 : 1);
-    car.setAngle(0);
+    car.setAngle(STEERING_OFFSET_FORWARD);
     car.setSpeed(speed);
 
     long initialDistance = car.getDistance();
@@ -49,7 +49,7 @@ void goDistance(long centimeters, float speed)
                                      : currentDistance - initialDistance;
         hasReachedTargetDistance = travelledDistance >= smartcarlib::utils::getAbsolute(centimeters);
     }
-    car.setSpeed(0);
+    stop();
 }
 
 //---------------------------Dimitrios better turnInPlace()-----------------------
@@ -73,7 +73,7 @@ void rotateOnSpot(int targetDegrees, int speed)
         car.overrideMotorSpeed(speed,
                                -speed); // left motors spin forward, right motors spin backward
     }
-//    else
+   else
     { // rotate counter clockwise
         car.overrideMotorSpeed(-speed,
                                speed); // left motors spin backward, right motors spin forward
@@ -104,5 +104,5 @@ void rotateOnSpot(int targetDegrees, int speed)
         // is at least 0 and at most 360. To handle the "edge" cases we substracted or added 360 to
         // currentHeading)
     }
-    car.setSpeed(0); // we have reached the target, so stop the car
+    stop(); // we have reached the target, so stop the car
 }
