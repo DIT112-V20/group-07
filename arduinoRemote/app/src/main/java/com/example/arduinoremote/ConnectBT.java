@@ -32,6 +32,13 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
 
 
 
+
+    public static double[] coordinates = new double[]{57.866918, 11.960844};
+
+    public static double[] getCoordinates() {
+        return coordinates;
+    }
+
     @Override
     protected Void doInBackground(Void... devices) { //while the progress dialog is shown, the connection is done in background
         try {

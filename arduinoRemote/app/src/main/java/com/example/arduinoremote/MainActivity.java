@@ -1,6 +1,7 @@
 package com.example.arduinoremote;
 
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     String instruction = "";
-    Button forwardBut, stopBut, reverseBut, connectBut;
+    Button forwardBut, stopBut, reverseBut, connectBut,mapBut;
     SeekBar accelBar;
     SeekBar steeringBar;
     TextView accelText;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         steeringText = (TextView) findViewById(R.id.steeringText);
         reverseBut = (Button) findViewById(R.id.reverseBut);
         connectBut = (Button) findViewById(R.id.connectBut);
+        mapBut = (Button) findViewById(R.id.mapBut);
 
         // Configuring accelBar
         accelBar.setProgress(0);
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         stopBut.setOnClickListener(this);
         reverseBut.setOnClickListener(this);
         connectBut.setOnClickListener(this);
+        mapBut.setOnClickListener(this);
     }
 
 
@@ -164,6 +167,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 connection.execute();
                 if (connection != null)
                     connectBut.setVisibility(View.INVISIBLE);
+             break;
+
+            case R.id.mapBut:
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
         }
     }
 }
