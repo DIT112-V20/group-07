@@ -131,23 +131,23 @@ void driveAroundObstical(){
   
   if (rightDistance <= RIGHT_DIST && rightDistance > 0){     //Turn left if obstical on the right 
     rotateOnSpot(TURN_LEFT, TURN_SPEED_OA); 
-    leftOdometer.update();
-    rightOdometer.update();
+    leftOdometer.reset();
+    rightOdometer.reset();
     
     while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
          forward(TURN_SPEED_OA);
     }
     goDistance(15, TURN_SPEED_OA);
     stop();
-    long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
+    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
+    
     rotateOnSpot(TURN_RIGHT, TURN_SPEED_OA);
-
-    goDistance(20, TURN_SPEED_OA);
-          
+    goDistance(20, TURN_SPEED_OA);      
     while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
          forward(TURN_SPEED_OA);
     }
     stop();
+    
     rotateOnSpot(TURN_RIGHT, TURN_SPEED_OA);
     goDistance(odometerLength, TURN_SPEED_OA);
     rotateOnSpot(TURN_LEFT, TURN_SPEED_OA);     
