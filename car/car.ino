@@ -1,10 +1,12 @@
-#include <Smartcar.h>
-#include <BluetoothSerial.h>
-#include <SoftwareSerial.h>
+#include "Smartcar.h"
+#include "BluetoothSerial.h"
+#include "SoftwareSerial.h"
+#include "TinyGPS++.h"
 
 int trigPin = 19; //D19
 int echoPin = 5; //D5
-const int RXpin = 16, TXpin = 17; //pins for gps module
+const int RXpin = 16;
+const int TXpin = 17; //pins for gps module
 int MAX_DISTANCE = 300;
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
@@ -17,6 +19,7 @@ const int STOP_DIST = 15;
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
+TinyGPSPlus gps;
 
 GY50 gyroscope(GYRO_OFFSET);
 SR04 front(trigPin, echoPin, MAX_DISTANCE);
@@ -47,6 +50,7 @@ void setup() {
   Serial.begin(9600);
   SerialBT.begin("Smartcar");//Name of the BT in the car
   Serial_connect.begin(9600);//for communication between GPS module and esp32
+  Serial.println("GPS START");
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
 
@@ -54,8 +58,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  parsedGPS();
-  obstacleAvoidance();
+    parsedGPS();
+  //obstacleAvoidance();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
@@ -67,8 +71,8 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
   }
 
   if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
-    stop();    
-    
+    stop();
+
     while (true){
       digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
       delay(1000);                       // wait for a second
@@ -90,12 +94,12 @@ void obstacleAvoidance() {
 }
 
 void handleInput() { //handle serial input (String!!)
-  if (SerialBT.available()) { 
+  if (SerialBT.available()) {
     String input;
-    while (SerialBT.available()) { 
-      input = SerialBT.readStringUntil('\n');   
+    while (SerialBT.available()) {
+      input = SerialBT.readStringUntil('\n');
     }; //read till last character
-    
+
     if (input.startsWith("v")) {
       int throttle = input.substring(1).toInt();
       forward(throttle);
@@ -109,6 +113,6 @@ void handleInput() { //handle serial input (String!!)
     if (input.startsWith("t")) {
       int throttle = input.substring(1).toInt();
       turn(throttle);
-    }  
+    }
   }
 }
