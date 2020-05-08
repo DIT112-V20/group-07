@@ -2,7 +2,6 @@
 const int STEERING_OFFSET_FORWARD = -11.5; //Steering angle is -11.5° to make the car drive straight
 const int STEERING_OFFSET_BAKWARDS = -6.7;
 const int TURN_ANGLE = 90; //Turn degree for turning on the spot 
-const int TURN_SPEED = 30; //Turn speed for turning on the spot 
 
 //Method for driving (straight) forward
  void forward(int speed){

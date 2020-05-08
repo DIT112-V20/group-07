@@ -14,7 +14,7 @@ const int echoPinRight = 18; //D18
 const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
-const int TURN_SPEED_OA = 20; //Turn speed for turning on the spot 
+const int TURN_SPEED = 20; //Turn speed for turning on the spot 
 const int TURN_LEFT = -90;
 const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
@@ -130,36 +130,36 @@ void driveAroundObstical(){
   int rightDistance = right.getDistance();
   
   if (rightDistance <= RIGHT_DIST && rightDistance > 0){     //Turn left if obstical on the right 
-    rotateOnSpot(TURN_LEFT, TURN_SPEED_OA); 
+    rotateOnSpot(TURN_LEFT, TURN_SPEED); 
     leftOdometer.reset();
     rightOdometer.reset();
     
     while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
-         forward(TURN_SPEED_OA);
+         forward(TURN_SPEED);
     }
-    goDistance(15, TURN_SPEED_OA);
+    goDistance(15, TURN_SPEED);
     stop();
     const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
     
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED_OA);
-    goDistance(20, TURN_SPEED_OA);      
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+    goDistance(20, TURN_SPEED);      
     while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
-         forward(TURN_SPEED_OA);
+         forward(TURN_SPEED);
     }
     stop();
     
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED_OA);
-    goDistance(odometerLength, TURN_SPEED_OA);
-    rotateOnSpot(TURN_LEFT, TURN_SPEED_OA);     
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+    goDistance(odometerLength, TURN_SPEED);
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);     
     
   }
   else if (leftDistance <= LEFT_DIST && leftDistance > 0){  //Turn right if obstical on the left 
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED_OA);
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
   }
   else if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){ //if there is no obstical on either sides rotate 90 degrees to the left
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED_OA);
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
   }
   else{
-    rotateOnSpot(TURN_AROUND, TURN_SPEED_OA); //it rotates 180 degrees to the right.
+    rotateOnSpot(TURN_AROUND, TURN_SPEED); //it rotates 180 degrees to the right.
   } 
 }
