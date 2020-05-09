@@ -4,7 +4,7 @@
 #include <Wire.h>
 
 //Ultrasonic sensors 
-const int MAX_DISTANCE = 300;
+const int MAX_DISTANCE = 100;
 const int trigPinFront = 19; //D19
 const int echoPinFront = 5; //D5
 const int trigPinRight = 33; //D33
@@ -12,9 +12,9 @@ const int echoPinRight = 18; //D18
 
 //Constants 
 const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
-const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
-const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
-const int TURN_SPEED = 20; //Turn speed for turning on the spot 
+const int RIGHT_DIST = 40; // this distance is in cm and are for the sensor on the right side
+const int LEFT_DIST = 400; //this distance is in millimiters for the right side sensors
+const int TURN_SPEED = 30; //Turn speed for turning on the spot 
 const int TURN_LEFT = -90;
 const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
@@ -125,82 +125,68 @@ void handleInput() { //handle serial input (String!!)
 
 void driveAroundObstical(){
   int leftDistance = left.readRangeContinuousMillimeters();
-  int rightDistance = right.getDistance();
+  int rightDistance = right.getMedianDistance();
   
-  if (rightDistance <= RIGHT_DIST && rightDistance > 0){     //Turn left if obstical on the right 
+  if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){               //if there is no obstical on either sides rotate 90 degrees to the right
+    obsticalTurnRight();
+  }  
+  else if (rightDistance <= RIGHT_DIST && rightDistance > 0){               //Turn left if obstical on the right   
+    obsticalTurnLeft();
+  }
+  else if (leftDistance <= LEFT_DIST && leftDistance > 0){                  //Turn right if obstical on the left side
+    obsticalTurnRight(); 
+  }
+  else{
+    rotateOnSpot(TURN_AROUND, TURN_SPEED);                                  //it rotates 180 degrees to the right.
+  } 
+}
+
+void obsticalTurnRight(){  //this method makes the car go around an obstical on the right side
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+    leftOdometer.reset();
+    rightOdometer.reset();
+
+    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){      //while there is still an obstical on the left side continue forward
+         forward(TURN_SPEED);
+    }
+    goDistance(15, TURN_SPEED);
+    stop();
+    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);                 //this distance it the distance the car moved sideways
     
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    goDistance(60, TURN_SPEED);  
+       
+    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){       //while there is still an obstical on the left side continue forward
+         forward(TURN_SPEED);
+    }
+    stop();
+    
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    goDistance(odometerLength, TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+}
+
+void obsticalTurnLeft(){    //this method makes the car go around an obstical on the left side
     rotateOnSpot(TURN_LEFT, TURN_SPEED); 
     leftOdometer.reset();
     rightOdometer.reset();
-    
-    while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
+
+    while(right.getMedianDistance() <= RIGHT_DIST && right.getMedianDistance() > 0){                              //while there is still an obstical on the right side continue forward
          forward(TURN_SPEED);
     }
     goDistance(15, TURN_SPEED);
     stop();
-    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
+    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);                   //this distance it the distance the car moved sideways
     
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
-    goDistance(40, TURN_SPEED);      
-    while(right.getDistance() <= RIGHT_DIST && right.getDistance() > 0){
+    goDistance(60, TURN_SPEED);     
+    
+    while(right.getMedianDistance() <= RIGHT_DIST && right.getMedianDistance() > 0){                               //while there is still an obstical on the right side continue forward
          forward(TURN_SPEED);
     }
     stop();
     
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
-    goDistance(odometerLength, TURN_SPEED);
-    rotateOnSpot(TURN_LEFT, TURN_SPEED);     
-    
-  }
-  else if (leftDistance <= LEFT_DIST && leftDistance > 0){  //Turn right if obstical on the left 
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
-    leftOdometer.reset();
-    rightOdometer.reset();
-    
-    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
-         forward(TURN_SPEED);
-    }
-    goDistance(15, TURN_SPEED);
-    stop();
-    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
-    
-    rotateOnSpot(TURN_LEFT, TURN_SPEED);
-    goDistance(40, TURN_SPEED);      
-    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
-         forward(TURN_SPEED);
-    }
-    stop();
-    
-    rotateOnSpot(TURN_LEFT, TURN_SPEED);
-    goDistance(odometerLength, TURN_SPEED);
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED);     
-    
-  }
-  else if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){ //if there is no obstical on either sides rotate 90 degrees to the right
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED);
-    leftOdometer.reset();
-    rightOdometer.reset();
-    
-    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
-         forward(TURN_SPEED);
-    }
-    goDistance(15, TURN_SPEED);
-    stop();
-    const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
-    
-    rotateOnSpot(TURN_LEFT, TURN_SPEED);
-    goDistance(40, TURN_SPEED);      
-    while(left.readRangeContinuousMillimeters() <= LEFT_DIST && left.readRangeContinuousMillimeters() > 0){
-         forward(TURN_SPEED);
-    }
-    stop();
-    
-    rotateOnSpot(TURN_LEFT, TURN_SPEED);
-    goDistance(odometerLength, TURN_SPEED);
-    rotateOnSpot(TURN_RIGHT, TURN_SPEED);     
-    
-  }
-  else{
-    rotateOnSpot(TURN_AROUND, TURN_SPEED); //it rotates 180 degrees to the right.
-  } 
+    goDistance(odometerLength, TURN_SPEED);                   //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+    rotateOnSpot(TURN_LEFT, TURN_SPEED);   
 }
