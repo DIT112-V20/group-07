@@ -1,36 +1,31 @@
-#include <Smartcar.h>
-#include <BluetoothSerial.h>
-#include <VL53L0X.h>
-#include <Wire.h>
+#include "Smartcar.h"
+#include "BluetoothSerial.h"
+#include "SoftwareSerial.h"
+#include "TinyGPS++.h"
 
-
-int trigPinFront = 19; //D19
-int echoPinFront = 5; //D5
+int trigPin = 19; //D19
+int echoPin = 5; //D5
+const int RXpin = 16;
+const int TXpin = 17; //pins for gps module
 int MAX_DISTANCE = 300;
-
-int trigPinRight = 33; //D33
-int echoPinRight = 18; //D18
-
 const auto pulsesPerMeter = 600;
 const int TURN_ANGLE = 80;
 const int REVERS_SPEED = 40;
 const int GYRO_OFFSET = 22;
+const int STOP_DIST = 15;
 
-const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
-const int RIGHT_DIST = 30; // this distance is in cm and are for the sensor on the right side
-const int LEFT_DIST = 300; //this distance is in millimiters for the right side sensors
+
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
+TinyGPSPlus gps;
 
 GY50 gyroscope(GYRO_OFFSET);
-SR04 front(trigPinFront, echoPinFront, MAX_DISTANCE);
-SR04 right(trigPinRight, echoPinRight, MAX_DISTANCE);
-
-VL53L0X sensor;
+SR04 front(trigPin, echoPin, MAX_DISTANCE);
 
 BluetoothSerial SerialBT;//for the BT
+SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
 
 DirectionlessOdometer leftOdometer(
   smartcarlib::pins::v2::leftOdometerPin,
@@ -53,21 +48,18 @@ SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  SerialBT.begin("Smartcar"); //Name of the BT in the car
+  SerialBT.begin("Smartcar");//Name of the BT in the car
+  Serial_connect.begin(9600);//for communication between GPS module and esp32
+  Serial.println("GPS START");
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
-  Wire.begin();
 
-  sensor.setTimeout(500);
-  if (!sensor.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
-    while(1){}
-    }
-  sensor.startContinuous(); 
 }
 
-void loop() {  
+void loop() {
   // put your main code here, to run repeatedly:
-  obstacleAvoidance();
+    parsedGPS();
+  //obstacleAvoidance();
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
@@ -79,8 +71,8 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
   }
 
   if (event == ESP_SPP_CLOSE_EVT ) { //If the smartcar does not have a bluetooth connection
-    stop();    
-    
+    stop();
+
     while (true){
       digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
       delay(1000);                       // wait for a second
@@ -91,14 +83,9 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 }
 
 void obstacleAvoidance() {
-  int frontDistance = front.getDistance();
-  int leftDistance = sensor.readRangeContinuousMillimeters();
-  int rightDistance = right.getDistance();
+  int distance = front.getDistance();
 
-  if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
-    stop();
-  }
-  else if(leftDistance <= LEFT_DIST && leftDistance > 0 || rightDistance <= RIGHT_DIST && rightDistance > 0){
+  if (distance <= STOP_DIST && distance > 0){ //stop when distance is less than 15 cm.
     stop();
   }
   else{
@@ -107,12 +94,12 @@ void obstacleAvoidance() {
 }
 
 void handleInput() { //handle serial input (String!!)
-  if (SerialBT.available()) { 
+  if (SerialBT.available()) {
     String input;
-    while (SerialBT.available()) { 
-      input = SerialBT.readStringUntil('\n');   
+    while (SerialBT.available()) {
+      input = SerialBT.readStringUntil('\n');
     }; //read till last character
-    
+
     if (input.startsWith("v")) {
       int throttle = input.substring(1).toInt();
       forward(throttle);
@@ -126,6 +113,6 @@ void handleInput() { //handle serial input (String!!)
     if (input.startsWith("t")) {
       int throttle = input.substring(1).toInt();
       turn(throttle);
-    }  
+    }
   }
 }
