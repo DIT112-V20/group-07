@@ -1,0 +1,32 @@
+name: CI Arduino
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on: [push, pull_request]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-sketch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v2
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.0.0
+      - name: Get Python3
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+      - name: Fetch sketch dependencies
+        run: |
+          pip3 install pyserial
+          arduino-cli core update-index --additional-urls "https://dl.espressif.com/dl/package_esp32_index.json"
+          arduino-cli core install esp32:esp32 --additional-urls "https://dl.espressif.com/dl/package_esp32_index.json"
+          arduino-cli lib install "Smartcar shield"
+          arduino-cli lib install "ESP32 AnalogWrite"
+          arduino-cli lib install "ServoESP32"
+          arduino-cli lib install "VL53L0X"
+          arduino-cli lib install "EspSoftwareSerial"
+      - name: Build sketch
+        run: |
+          arduino-cli compile -b esp32:esp32:esp32doit-devkit-v1 car/car.ino
