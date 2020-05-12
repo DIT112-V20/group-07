@@ -146,21 +146,12 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
     leftOdometer.reset();
     rightOdometer.reset();
 
-    while(left.readRangeContinuousMillimeters() <= LEFT_DIST){                                                  //while there is still an obstical on the left side continue forward
-         forward(TURN_SPEED);
-    }
-    goDistance(15, TURN_SPEED);
-    stop();
+    goDistance(60, TURN_SPEED);
+    ifAtLeft();
     const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);                 //this distance it the distance the car moved sideways
-    
-    rotateOnSpot(TURN_LEFT, TURN_SPEED);
-    goDistance(60, TURN_SPEED);  
-       
-    while(left.readRangeContinuousMillimeters() <= LEFT_DIST){                                                  //while there is still an obstical on the left side continue forward
-         forward(TURN_SPEED);
-    }
-    stop();
-    
+    goDistance(60, TURN_SPEED); 
+    ifAtLeft();
+           
     rotateOnSpot(TURN_LEFT, TURN_SPEED);
     goDistance(odometerLength, TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
@@ -193,4 +184,15 @@ void obsticalTurnLeft(){    //this method makes the car go around an obstical on
     rotateOnSpot(TURN_RIGHT, TURN_SPEED);
     goDistance(odometerLength, TURN_SPEED);                   //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
     rotateOnSpot(TURN_LEFT, TURN_SPEED);   
+}
+
+void ifAtLeft(){ //this is insted of a while loop, which is very costly when using the sensors. 
+   
+   if(left.readRangeContinuousMillimeters() <= LEFT_DIST){                                                  
+       goDistance(30, TURN_SPEED);
+       rotateOnSpot(TURN_LEFT, TURN_SPEED);
+    }
+    else{
+      rotateOnSpot(TURN_LEFT, TURN_SPEED); 
+    }
 }
