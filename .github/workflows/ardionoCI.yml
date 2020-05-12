@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
+      - name: Get GPS library
+        uses: actions/checkout@v2
+        with:
+          repository: mikalhart/TinyGPSPlus
+          path: external/TinyGPSPlus
       - name: Install Arduino CLI
         uses: arduino/setup-arduino-cli@v1.0.0
       - name: Get Python3
@@ -23,11 +28,9 @@ jobs:
           arduino-cli core update-index --additional-urls "https://dl.espressif.com/dl/package_esp32_index.json"
           arduino-cli core install esp32:esp32 --additional-urls "https://dl.espressif.com/dl/package_esp32_index.json"
           arduino-cli lib install "Smartcar shield"
-          arduino-cli lib install "ESP32 AnalogWrite"
-          arduino-cli lib install "ServoESP32"
           arduino-cli lib install "VL53L0X"
           arduino-cli lib install "EspSoftwareSerial"
 
       - name: Build sketch
         run: |
-          arduino-cli compile -b esp32:esp32:esp32doit-devkit-v1 car/car.ino
+          arduino-cli compile --libraries "external/TinyGPSPlus/" -b esp32:esp32:esp32doit-devkit-v1 car/car.ino
