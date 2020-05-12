@@ -16,3 +16,5 @@ jobs:
         run: |
           cd arduinoRemote
           ./gradlew build --stacktrace
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
