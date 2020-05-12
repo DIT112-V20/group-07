@@ -15,6 +15,6 @@ jobs:
       - name: Build app
         run: |
           cd arduinoRemote
+          chmod +x ./gradlew
           ./gradlew build --stacktrace
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      
