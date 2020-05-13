@@ -1,4 +1,4 @@
-name: appCI
+name: CI App
 
 on: [push, pull_request]
 
