@@ -143,7 +143,7 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
   leftOdometer.reset();
   rightOdometer.reset();
   
-  for (int i = 0; i > 2; i++) {
+  /*for (int i = 0; i > 2; i++) {
     while (true) {
       int leftDistance = left.readRangeContinuousMillimeters();  
       if(leftDistance <= LEFT_DIST) {
@@ -155,7 +155,7 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
       }
     } 
     i++;
-  }
+  }*/
 
   int j = 0;
   do { 
@@ -166,11 +166,11 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
       goDistance(30, TURN_SPEED);
       j ++;
     }
-  } while (j < 1);
+  } while (j < 2);
 
-  const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);                 //this distance it the distance the car moved sideways
-  goDistance((odometerLength/2), TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
-  rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+  //const long odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);                 //this distance it the distance the car moved sideways
+  //goDistance((odometerLength/2), TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+  //rotateOnSpot(TURN_RIGHT, TURN_SPEED);
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /*
