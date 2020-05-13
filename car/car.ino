@@ -147,19 +147,18 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
   int j = 0;
   do { 
     if(left.readRangeContinuousMillimeters() <= LEFT_DIST) {
-      goDistance(45, TURN_SPEED);
+      goDistance(40, TURN_SPEED);
     } else {
-      while (j == 0) {
-      odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2);
-      break; 
+      if (j == 0) {
+      odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2); 
       }
       rotateOnSpot(TURN_LEFT, TURN_SPEED);
       goDistance(45, TURN_SPEED);
       j ++;
     }
-  } while (j <= 2);
+  } while (j < 2);
 
-  goDistance(odometerLength, TURN_SPEED);    //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+  goDistance((odometerLength - 40), TURN_SPEED);    //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
   rotateOnSpot(TURN_RIGHT, TURN_SPEED);
 }
 
@@ -169,7 +168,21 @@ void obsticalTurnLeft(){    //this method makes the car go around an obstical on
   rightOdometer.reset();
   long odometerLength = 0;
   
+    int j = 0;
+  do { 
+    int rightDistance = right.getMedianDistance();
+    if(rightDistance <= RIGHT_DIST && rightDistance > 0) {
+      goDistance(40, TURN_SPEED);
+    } else {
+      if (j == 0) {
+      odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2); 
+      }
+      rotateOnSpot(TURN_RIGHT, TURN_SPEED);
+      goDistance(45, TURN_SPEED);
+      j ++;
+    }
+  } while (j < 2);
 
-  goDistance(odometerLength, TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+  goDistance((odometerLength -40), TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
   rotateOnSpot(TURN_LEFT, TURN_SPEED);   
 }
