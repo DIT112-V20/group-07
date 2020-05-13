@@ -35,11 +35,8 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    ConnectBT connection;
 
-
-    protected GoogleMap getmMap() {
-        return this.mMap;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        connection = new ConnectBT();
+        connection.execute();
 
     }
 
@@ -67,19 +66,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         final ArrayList<LatLng> MarkerPoints = new ArrayList<>();
 
-        // Marker is set at Majas house and camera is there as well
-        LatLng majasHouse = new LatLng(57.866918, 11.960844);
-        mMap.addMarker(new MarkerOptions().position(majasHouse).title("Marker at Car"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(majasHouse));
+        // Marker is set at Car position and the camera is there as well
+         LatLng carPosition = new LatLng((ConnectBT.getCoordinates()[0]), ConnectBT.getCoordinates()[1] );
+        mMap.addMarker(new MarkerOptions().position(carPosition).title("Marker at Car").icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(carPosition));
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng point) {
 
-                // Already two locations
-                if (MarkerPoints.size() > 1) {
+                 LatLng carPosition = new LatLng((ConnectBT.getCoordinates()[0]), ConnectBT.getCoordinates()[1] );
+                mMap.addMarker(new MarkerOptions().position(carPosition).title("Marker at Car").icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+
+                // Already one location
+                if (MarkerPoints.size() > 0) {
                     MarkerPoints.clear();
                     mMap.clear();
+                    mMap.addMarker(new MarkerOptions().position(carPosition).title("Marker at Car").icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
                 }
 
                 // Adding new item to the ArrayList
@@ -96,8 +99,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                  * for the end location, the color of marker is RED.
                  */
                 if (MarkerPoints.size() == 1) {
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                } else if (MarkerPoints.size() == 2) {
                     options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
                 }
@@ -107,14 +108,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(options);
 
                 // Checks, whether start and end locations are captured
-                if (MarkerPoints.size() >= 2) {
-                    LatLng origin = MarkerPoints.get(0);
-                    LatLng dest = MarkerPoints.get(1);
-                    Polyline polyline1 = mMap.addPolyline(new PolylineOptions()
+                if (MarkerPoints.size() >= 1) {
+                    LatLng origin = carPosition;
+                    LatLng dest = MarkerPoints.get(0);
+                    /*Polyline polyline1 = mMap.addPolyline(new PolylineOptions()
                             .clickable(true)
                             .add(
                                     origin,
-                                    dest));
+                                    dest));*/
+
+
 
                     // Getting URL to the Google Directions API
                     String url = getUrl(origin, dest);
@@ -123,16 +126,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // Start downloading json data from Google Directions API
                     FetchUrl.execute(url);
+
+
                     //move map camera
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                 }
 
             }
 
+
+
             private String getUrl(LatLng origin, LatLng dest) {
-                return "https://maps.googleapis.com/maps/api/directions/json?\n" +
-                        "origin=" + origin + "&destination=" + dest + "\n" +
+                return "https://maps.googleapis.com/maps/api/directions/json?" +
+                        "origin=" + origin.latitude + ","+ origin.longitude + "&destination=" + dest.latitude +","+ dest.longitude +
                         "&key="+ getResources().getString(R.string.google_maps_key);
             }
         });
@@ -369,3 +376,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 }
+
