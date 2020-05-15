@@ -92,7 +92,7 @@ void obstacleAvoidance() {
 
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     stop();
-    driveAroundObstical();
+    driveAroundObstacle();
   } else {
     handleInput();
   }
@@ -123,22 +123,22 @@ void handleInput() { //handle serial input (String!!)
   }
 }
 
-void driveAroundObstical(){
+void driveAroundObstacle(){
   int leftDistance = left.readRangeContinuousMillimeters();
   int rightDistance = right.getMedianDistance();
   
   if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){               //if there is no obstical on either sides rotate 90 degrees to the right
-    obsticalTurnRight();
+    obstacleTurnRight();
   } else if (rightDistance <= RIGHT_DIST && rightDistance > 0){               //Turn left if obstical on the right   
-    obsticalTurnLeft();
-  } else if (leftDistance <= LEFT_DIST){                  //Turn right if obstical on the left side
-    obsticalTurnRight(); 
+    obstacleTurnLeft();
+  } else if (leftDistance <= LEFT_DIST){                               //Turn right if obstical on the left side
+    obstacleTurnRight(); 
   } else {
     rotateOnSpot(TURN_AROUND, TURN_SPEED);                                  //it rotates 180 degrees to the right.
   } 
 }
 
-void obsticalTurnRight(){  //this method makes the car go around an obstical on the right side
+void obstacleTurnRight(){  //this method makes the car go around an obstical on the right side
   rotateOnSpot(TURN_RIGHT, TURN_SPEED);
   leftOdometer.reset();
   rightOdometer.reset();
@@ -160,7 +160,7 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
   rotateOnSpot(TURN_RIGHT, TURN_SPEED);
 }
 
-void obsticalTurnLeft(){    //this method makes the car go around an obstical on the left side
+void obstacleTurnLeft(){    //this method makes the car go around an obstical on the left side
   rotateOnSpot(TURN_LEFT, TURN_SPEED); 
   leftOdometer.reset();
   rightOdometer.reset();
