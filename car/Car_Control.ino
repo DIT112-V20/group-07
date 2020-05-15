@@ -1,7 +1,6 @@
 //Constants 
 const int STEERING_OFFSET_FORWARD = -11.5; //Steering angle is -11.5° to make the car drive straight
 const int STEERING_OFFSET_BAKWARDS = -6.7;
-const int TURN_ANGLE = 90; //Turn degree for turning on the spot 
 
 //Method for driving (straight) forward
  void forward(int speed){
@@ -29,10 +28,7 @@ void reverse(int speed){
 //Makes the car travel a certain distance in centimeters. If centimeter is positive it goes forward, if centimeter is negative it oes backwards.
 void goDistance(long centimeters, float speed)
 {
-    if (centimeters == 0)
-    {
-        return;
-    }
+    if (centimeters == 0) {  return; }
     // Ensures the speed is towards the correct direction
     speed = smartcarlib::utils::getAbsolute(speed) * ((centimeters < 0) ? -1 : 1);
     car.setAngle(STEERING_OFFSET_FORWARD);
@@ -40,8 +36,7 @@ void goDistance(long centimeters, float speed)
 
     long initialDistance = car.getDistance();
     bool hasReachedTargetDistance = false;
-    while (!hasReachedTargetDistance)
-    {
+    while (!hasReachedTargetDistance) {
         car.update();
         auto currentDistance = car.getDistance();
         auto travelledDistance = initialDistance > currentDistance
