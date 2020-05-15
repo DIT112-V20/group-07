@@ -11,7 +11,7 @@ const int trigPinRight = 33; //D33
 const int echoPinRight = 18; //D18
 
 //Constants 
-const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
+const int STOP_DIST = 13; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 50; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 500; //this distance is in millimiters for the right side sensors
 const int TURN_SPEED = 20; //Turn speed for turning on the spot 
