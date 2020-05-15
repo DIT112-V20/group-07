@@ -158,7 +158,7 @@ void obsticalTurnRight(){  //this method makes the car go around an obstical on 
     }
   } while (j < 2);
 
-  goDistance((odometerLength - 40), TURN_SPEED);    //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+  goDistance((odometerLength - 45), TURN_SPEED);    //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
   rotateOnSpot(TURN_RIGHT, TURN_SPEED);
 }
 
@@ -183,6 +183,6 @@ void obsticalTurnLeft(){    //this method makes the car go around an obstical on
     }
   } while (j < 2);
 
-  goDistance((odometerLength -40), TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
+  goDistance((odometerLength -45), TURN_SPEED);             //this distance it the distance the car moved sideways (used to go back in the same path but on the other side of the obstical.)
   rotateOnSpot(TURN_LEFT, TURN_SPEED);   
 }
