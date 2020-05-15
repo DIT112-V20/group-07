@@ -1,5 +1,7 @@
 #include <Smartcar.h>
 #include <BluetoothSerial.h>
+#include <VL53L0X.h>
+#include <Wire.h>
 #include <SoftwareSerial.h>
 #include <TinyGPS++.h>
 
