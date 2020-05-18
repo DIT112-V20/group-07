@@ -52,7 +52,7 @@ DirectionlessOdometer rightOdometer( smartcarlib::pins::v2::rightOdometerPin, []
 BluetoothSerial SerialBT;
 
 //GPS
-SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
+SoftwareSerial Serial_connect(TXpin, RXpin);    //serial for GPS module
 
 //Smartcar constructor
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
