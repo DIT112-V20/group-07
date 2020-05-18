@@ -20,6 +20,10 @@ const int TURN_LEFT = -90;
 const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
 const int TURN_DIST = 45;
+const int RXPin = 16;
+const int TXPin = 17;
+int period = 1000;
+unsigned long time_now = 0;
 
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
@@ -58,7 +62,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar");//Name of the BT in the car
-  Serial2.begin(9600); //Hardware Serial for GPS using RX=16 and TX=17
+  Serial2.begin(9600, SERIAL_8N1, TXPin, RXPin); // GPS Serial
   Serial.println("GPS START");
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
@@ -73,8 +77,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  parsedGPS();
+  parseGPS();
   evaluateMethod();
+
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
@@ -97,16 +102,22 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
   }
 }
 
-//Main method that calls other methods, also avoids obsticles
+//Main method that calls other methods, also avoids obstacles
 void evaluateMethod() {
-  int frontDistance = front.getDistance();
+    if(millis() > time_now + period){
+        time_now = millis();
+        printGpsToSerial();
+        printGpsToBluetooth();
+    }
 
+  int frontDistance = front.getDistance();
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     stop();
     obstacleAvoidance();
   } else {
     handleInput();
   }
+
 }
 
 //Gets input from bluetooth and translate to commands for the car
