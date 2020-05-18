@@ -1,9 +1,9 @@
 void parsedGPS() {
 
   Serial.println("1");
-  while (Serial_connect.available()){
+  while (Serial2.available()){
      Serial.println("2");
-    gps.encode(Serial_connect.read());
+    gps.encode(Serial2.read());
   }
   
   if (gps.location.isUpdated()){    

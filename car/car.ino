@@ -1,9 +1,8 @@
-#include <Smartcar.h>
-#include <BluetoothSerial.h>
-#include <VL53L0X.h>
-#include <Wire.h>
-#include <SoftwareSerial.h>
-#include <TinyGPS++.h>
+#include "Smartcar.h"
+#include "BluetoothSerial.h"
+#include "VL53L0X.h"
+#include "Wire.h"
+#include "TinyGPS++.h"
 
 //Ultrasonic sensors
 const int MAX_DISTANCE = 100;
@@ -22,14 +21,10 @@ const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
 const int TURN_DIST = 45;
 
-//Pins for the GPS
-const int RXpin = 16;
-const int TXpin = 17; //pins for gps module
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
-TinyGPSPlus gps;
 
 //Gyroscope
 const int GYRO_OFFSET = 22;
@@ -44,7 +39,7 @@ VL53L0X left;
 BluetoothSerial SerialBT;
 
 //GPS
-SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
+TinyGPSPlus gps;
 
 
 //Odometer
@@ -63,11 +58,11 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar");//Name of the BT in the car
-  Serial_connect.begin(9600);//for communication between GPS module and esp32
+  Serial2.begin(9600); //Hardware Serial for GPS using RX=16 and TX=17
   Serial.println("GPS START");
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
-   Wire.begin();
+  Wire.begin();
 
   left.setTimeout(500);
   if (!left.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
