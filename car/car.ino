@@ -1,3 +1,4 @@
+//Libaries 
 #include <Smartcar.h>
 #include <BluetoothSerial.h>
 #include <VL53L0X.h>
@@ -7,10 +8,14 @@
 
 //Ultrasonic sensors
 const int MAX_DISTANCE = 100;
-const int trigPinFront = 19; //D19
-const int echoPinFront = 5; //D5
-const int trigPinRight = 33; //D33
-const int echoPinRight = 18; //D18
+const int trigPinLeft = 19;     //D19
+const int echoPinLeft = 5;      //D5
+const int trigPinRight = 33;    //D33
+const int echoPinRight = 18;    //D18
+
+//Pins for the GPS
+const int RXpin = 16;
+const int TXpin = 17;           //pins for gps module
 
 //Constants
 const int STOP_DIST = 13; //this distance is in centimiters for the front sensor
@@ -22,10 +27,7 @@ const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
 const int TURN_DIST = 45;
 
-//Pins for the GPS
-const int RXpin = 16;
-const int TXpin = 17; //pins for gps module
-
+//Motor
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
@@ -36,16 +38,9 @@ const int GYRO_OFFSET = 22;
 GY50 gyroscope(GYRO_OFFSET);
 
 //Sensors
-SR04 front(trigPinFront, echoPinFront, MAX_DISTANCE);
+VL53L0X front;
+SR04 left(trigPinLeft, echoPinLeft, MAX_DISTANCE);
 SR04 right(trigPinRight, echoPinRight, MAX_DISTANCE);
-VL53L0X left;
-
-//Bluetooth
-BluetoothSerial SerialBT;
-
-//GPS
-SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
-
 
 //Odometer
 const auto pulsesPerMeterLeft = 970;
@@ -53,6 +48,11 @@ const auto pulsesPerMeterRight = 1180;
 DirectionlessOdometer leftOdometer( smartcarlib::pins::v2::leftOdometerPin, []() { leftOdometer.update(); }, pulsesPerMeterLeft);
 DirectionlessOdometer rightOdometer( smartcarlib::pins::v2::rightOdometerPin, []() {rightOdometer.update(); },pulsesPerMeterRight);
 
+//Bluetooth
+BluetoothSerial SerialBT;
+
+//GPS
+SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
 
 //Smartcar constructor
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
@@ -70,11 +70,11 @@ void setup() {
   SerialBT.register_callback(callback);
    Wire.begin();
 
-  left.setTimeout(500);
-  if (!left.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
+  front.setTimeout(500);
+  if (!front.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
     while(1){}
     }
-  left.startContinuous();
+  front.startContinuous();
 }
 
 void loop() {
@@ -105,9 +105,8 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 
 //Main method that calls other methods, also avoids obsticles
 void evaluateMethod() {
-  int frontDistance = front.getDistance();
-
-  if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
+  int frontDistance = front.readRangeContinuousMillimeters();
+  if (frontDistance <= STOP_DIST){ //stop when distance is less than 15 cm.
     stop();
     obstacleAvoidance();
   } else {
@@ -141,14 +140,14 @@ void handleInput() { //handle serial input (String!!)
 }
 
 void obstacleAvoidance(){
-  int leftDistance = left.readRangeContinuousMillimeters();
+  int leftDistance = left.getMedianDistance();
   int rightDistance = right.getMedianDistance();
 
   if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){   //if there is no obstical on either sides rotate 90 degrees to the left
     driveAroundObsticalLeft();
   } else if (rightDistance <= RIGHT_DIST && rightDistance > 0){    //Turn left if obstical on the right
     driveAroundObsticalLeft();
-  } else if (leftDistance <= LEFT_DIST){   //Turn right if obstical on the left side
+  } else if (leftDistance <= LEFT_DIST && leftDistance > 0){   //Turn right if obstical on the left side
     driveAroundObsticalRight();
   } else {
     rotateOnSpot(TURN_AROUND, TURN_SPEED);  //it rotates 180 degrees to the right.
@@ -163,7 +162,8 @@ void driveAroundObsticalRight(){  //this method makes the car go around an obsti
 
   int j = 0;
   do {
-    if(left.readRangeContinuousMillimeters() <= LEFT_DIST) {
+    int leftDistance = left.getMedianDistance();
+    if(leftDistance <= LEFT_DIST && leftDistance > 0) {
       goDistance(TURN_DIST, TURN_SPEED);
     } else {
       if (j == 0) { odometerLength = ((leftOdometer.getDistance() + rightOdometer.getDistance())/2); }
