@@ -48,9 +48,10 @@ SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
 
 
 //Odometer
-const auto pulsesPerMeter = 600;
-DirectionlessOdometer leftOdometer( smartcarlib::pins::v2::leftOdometerPin, []() { leftOdometer.update(); }, pulsesPerMeter);
-DirectionlessOdometer rightOdometer( smartcarlib::pins::v2::rightOdometerPin, []() {rightOdometer.update(); },pulsesPerMeter);
+const auto pulsesPerMeterLeft = 970;
+const auto pulsesPerMeterRight = 1180;
+DirectionlessOdometer leftOdometer( smartcarlib::pins::v2::leftOdometerPin, []() { leftOdometer.update(); }, pulsesPerMeterLeft);
+DirectionlessOdometer rightOdometer( smartcarlib::pins::v2::rightOdometerPin, []() {rightOdometer.update(); },pulsesPerMeterRight);
 
 
 //Smartcar constructor
