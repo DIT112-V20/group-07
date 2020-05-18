@@ -9,9 +9,8 @@ import android.widget.Button;
 
 public class Selection extends AppCompatActivity implements View.OnClickListener {
 
+
     Button driverBut, userBut;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class Selection extends AppCompatActivity implements View.OnClickListener
             case R.id.driverBut:
                 Intent intentDriver = new Intent(this, MainActivity.class);
                 startActivity(intentDriver);
+            break;
 
             case R.id.userBut:
                 Intent intentUser = new Intent(this, MapsActivity.class);
