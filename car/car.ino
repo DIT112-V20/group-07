@@ -13,7 +13,7 @@ const int trigPinRight = 33; //D33
 const int echoPinRight = 18; //D18
 
 //Constants
-const int STOP_DIST = 13; //this distance is in centimiters for the front sensor
+const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 50; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 500; //this distance is in millimiters for the right side sensors
 const int TURN_SPEED = 20; //Turn speed for turning on the spot
@@ -78,8 +78,9 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  parsedGPS();
+  // put your main code here, to run repeatedly
+  
+  //parsedGPS();
   evaluateMethod();
 }
 
@@ -143,8 +144,8 @@ void handleInput() { //handle serial input (String!!)
 void obstacleAvoidance(){
   int leftDistance = left.readRangeContinuousMillimeters();
   int rightDistance = right.getMedianDistance();
-
-  if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){   //if there is no obstical on either sides rotate 90 degrees to the left
+  
+  if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST || leftDistance > LEFT_DIST && rightDistance == 0){   //if there is no obstical on either sides rotate 90 degrees to the left
     driveAroundObsticalLeft();
   } else if (rightDistance <= RIGHT_DIST && rightDistance > 0){    //Turn left if obstical on the right
     driveAroundObsticalLeft();
