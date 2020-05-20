@@ -15,14 +15,14 @@ const int echoPinRight = 18; //D18
 const int STOP_DIST = 13; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 50; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 500; //this distance is in millimiters for the right side sensors
-const int TURN_SPEED = 20; //Turn speed for turning on the spot
+const int TURN_SPEED = 2; //Turn speed for turning on the spot
 const int TURN_LEFT = -90;
 const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
 const int TURN_DIST = 45;
-const int RXPin = 16;
-const int TXPin = 17;
-int period = 1000;
+const int RXPin = 16; //GPS RXPin
+const int TXPin = 17; //GPS TXPin
+int period = 1000; //Represents 1 second
 unsigned long time_now = 0;
 
 
@@ -62,7 +62,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar");//Name of the BT in the car
-  Serial2.begin(9600, SERIAL_8N1, TXPin, RXPin); // GPS Serial
+  Serial2.begin(9600, SERIAL_8N1, TXPin, RXPin); //GPS Serial
   Serial.println("GPS START");
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
@@ -104,6 +104,7 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
 
 //Main method that calls other methods, also avoids obstacles
 void evaluateMethod() {
+    //Sends GPS coordinates to BT and Serial once every second
     if(millis() > time_now + period){
         time_now = millis();
         printGpsToSerial();
