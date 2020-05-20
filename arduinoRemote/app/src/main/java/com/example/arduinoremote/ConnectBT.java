@@ -27,7 +27,7 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
     static double[] coordinates = new double[2];
 
     public static double[] getCoordinates(){
-        return coordinates;
+        return new double[]{57.866918, 11.960844};
     }
 
     @Override
