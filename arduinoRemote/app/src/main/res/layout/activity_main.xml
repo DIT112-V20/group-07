@@ -15,9 +15,9 @@
             android:background="#FF0000"
             android:text="@string/stop_but"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.498" app:layout_constraintBottom_toTopOf="@+id/connectBut"
-            android:layout_marginBottom="35dp"/>
+            android:layout_marginEnd="160dp" android:layout_marginRight="160dp"
+            app:layout_constraintStart_toEndOf="@+id/accelText" app:layout_constraintHorizontal_bias="0.977"
+            app:layout_constraintTop_toBottomOf="@+id/forwardBut" android:layout_marginTop="8dp"/>
     <Button
             android:id="@+id/forwardBut"
             style="@style/Widget.AppCompat.Button"
@@ -27,8 +27,8 @@
             android:text="@string/forward_but"
             android:textColorLink="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toTopOf="@+id/stopBut"
-            android:layout_marginBottom="35dp"/>
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/connectBut"
+            android:layout_marginTop="28dp" app:layout_constraintHorizontal_bias="0.498"/>
 
     <SeekBar
             android:id="@+id/steeringBar"
@@ -36,30 +36,34 @@
             android:layout_width="304dp"
             android:layout_height="25dp"
             android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/steeringText"
-            android:layout_marginTop="35dp"/>
-    <SeekBar
-            android:id="@+id/accelBar"
-            android:layout_width="293dp"
-            android:layout_height="38dp"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/accelText"
-            android:layout_marginTop="35dp"/>
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/steeringText" android:layout_marginTop="8dp"/>
+    <FrameLayout
+            android:layout_width="38dp"
+            android:layout_height="250dp"
+            app:layout_constraintTop_toBottomOf="@+id/accelText" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/steeringBar"
+            app:layout_constraintHorizontal_bias="0.622" android:id="@+id/frameLayout" android:layout_marginTop="4dp">
+        <SeekBar
+                android:layout_width="250dp"
+                android:layout_height="38dp"
+                android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_gravity="center"
+                android:rotation="270" android:id="@+id/accelBar"/>
+    </FrameLayout>
     <TextView
             android:id="@+id/accelText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="59dp"
+            android:layout_height="34dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/gear_header"
             android:gravity="center"
             android:textColor="#000000"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="35dp"/>
-
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="24dp" android:layout_marginStart="24dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="348dp"/>
     <Button
             android:id="@+id/reverseBut"
             android:layout_width="wrap_content"
@@ -67,9 +71,8 @@
             android:background="#2196F3"
             android:text="@string/reverse_mode_but"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/accelBar"
-            android:layout_marginTop="35dp"/>
-
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/stopBut"/>
     <TextView
             android:id="@+id/steeringText"
             android:layout_width="wrap_content"
@@ -80,9 +83,8 @@
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/reverseBut"
-            android:layout_marginTop="35dp"/>
-
+            app:layout_constraintStart_toEndOf="@+id/frameLayout" app:layout_constraintTop_toBottomOf="@+id/stopBut"
+            android:layout_marginTop="144dp" app:layout_constraintHorizontal_bias="0.512"/>
     <Button
             android:id="@+id/connectBut"
             android:layout_width="wrap_content"
@@ -91,17 +93,15 @@
             android:text="@string/connect"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.497"
-            android:layout_marginBottom="35dp"/>
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="112dp" app:layout_constraintHorizontal_bias="0.497"/>
     <Button
             android:id="@+id/mapBut"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/roundedbutton"
             android:text="@string/title_activity_maps"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="24dp" android:layout_marginRight="24dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="24dp"/>
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" android:layout_marginEnd="16dp" android:layout_marginRight="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
