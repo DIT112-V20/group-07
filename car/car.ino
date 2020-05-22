@@ -1,9 +1,8 @@
-#include <Smartcar.h>
-#include <BluetoothSerial.h>
-#include <VL53L0X.h>
-#include <Wire.h>
-#include <SoftwareSerial.h>
-#include <TinyGPS++.h>
+#include "Smartcar.h"
+#include "BluetoothSerial.h"
+#include "VL53L0X.h"
+#include "Wire.h"
+#include "TinyGPS++.h"
 
 //Ultrasonic sensors
 const int MAX_DISTANCE = 100;
@@ -16,20 +15,20 @@ const int echoPinRight = 18; //D18
 const int STOP_DIST = 13; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 50; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 500; //this distance is in millimiters for the right side sensors
-const int TURN_SPEED = 20; //Turn speed for turning on the spot
+const int TURN_SPEED = 2; //Turn speed for turning on the spot
 const int TURN_LEFT = -90;
 const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
 const int TURN_DIST = 45;
+const int RXPin = 16; //GPS RXPin
+const int TXPin = 17; //GPS TXPin
+int period = 1000; //Represents 1 second
+unsigned long time_now = 0;
 
-//Pins for the GPS
-const int RXpin = 16;
-const int TXpin = 17; //pins for gps module
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control (leftMotor, rightMotor);
-TinyGPSPlus gps;
 
 //Gyroscope
 const int GYRO_OFFSET = 22;
@@ -44,7 +43,7 @@ VL53L0X left;
 BluetoothSerial SerialBT;
 
 //GPS
-SoftwareSerial Serial_connect(TXpin, RXpin); //serial for GPS module
+TinyGPSPlus gps;
 
 
 //Odometer
@@ -64,11 +63,11 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   SerialBT.begin("Smartcar");//Name of the BT in the car
-  Serial_connect.begin(9600);//for communication between GPS module and esp32
+  Serial2.begin(9600, SERIAL_8N1, TXPin, RXPin); //GPS Serial
   Serial.println("GPS START");
   pinMode(LED_BUILTIN, OUTPUT);
   SerialBT.register_callback(callback);
-   Wire.begin();
+  Wire.begin();
 
   left.setTimeout(500);
   if (!left.init()){        //This checks if micro Lidar sensor is initialized and keeps in this state til it is.
@@ -79,8 +78,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  parsedGPS();
+  parseGPS();
   evaluateMethod();
+
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
@@ -103,16 +103,23 @@ void callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
   }
 }
 
-//Main method that calls other methods, also avoids obsticles
+//Main method that calls other methods, also avoids obstacles
 void evaluateMethod() {
-  int frontDistance = front.getDistance();
+    //Sends GPS coordinates to BT and Serial once every second
+    if(millis() > time_now + period){
+        time_now = millis();
+        printGpsToSerial();
+        printGpsToBluetooth();
+    }
 
+  int frontDistance = front.getDistance();
   if (frontDistance <= STOP_DIST && frontDistance > 0){ //stop when distance is less than 15 cm.
     stop();
     obstacleAvoidance();
   } else {
     handleInput();
   }
+
 }
 
 //Gets input from bluetooth and translate to commands for the car
