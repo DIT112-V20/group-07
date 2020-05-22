@@ -12,18 +12,20 @@ const int trigPinRight = 33; //D33
 const int echoPinRight = 18; //D18
 
 //Constants
-const int STOP_DIST = 13; //this distance is in centimiters for the front sensor
+const int STOP_DIST = 15; //this distance is in centimiters for the front sensor
 const int RIGHT_DIST = 50; // this distance is in cm and are for the sensor on the right side
 const int LEFT_DIST = 500; //this distance is in millimiters for the right side sensors
-const int TURN_SPEED = 2; //Turn speed for turning on the spot
+const int TURN_SPEED = 40; //Turn speed for turning on the spot
 const int TURN_LEFT = -90;
 const int TURN_RIGHT = 90;
 const int TURN_AROUND = 180;
 const int TURN_DIST = 45;
+
 const int RXPin = 16; //GPS RXPin
 const int TXPin = 17; //GPS TXPin
 int period = 1000; //Represents 1 second
 unsigned long time_now = 0;
+
 
 
 BrushedMotor leftMotor(smartcarlib::pins::v2::leftMotorPins);
@@ -77,10 +79,10 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // put your main code here, to run repeatedly
+  car.update();
   parseGPS();
   evaluateMethod();
-
 }
 
 //-------------------------------Set Up and Loop----------------------------------------------------//
@@ -119,7 +121,6 @@ void evaluateMethod() {
   } else {
     handleInput();
   }
-
 }
 
 //Gets input from bluetooth and translate to commands for the car
@@ -151,7 +152,7 @@ void obstacleAvoidance(){
   int leftDistance = left.readRangeContinuousMillimeters();
   int rightDistance = right.getMedianDistance();
 
-  if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST){   //if there is no obstical on either sides rotate 90 degrees to the left
+  if (leftDistance > LEFT_DIST && rightDistance > RIGHT_DIST || leftDistance > LEFT_DIST && rightDistance == 0){   //if there is no obstical on either sides rotate 90 degrees to the left
     driveAroundObsticalLeft();
   } else if (rightDistance <= RIGHT_DIST && rightDistance > 0){    //Turn left if obstical on the right
     driveAroundObsticalLeft();
