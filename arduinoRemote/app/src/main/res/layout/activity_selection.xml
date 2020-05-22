@@ -8,14 +8,10 @@
 
     <Button
         android:id="@+id/userBut"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="103dp"
-        android:layout_marginLeft="103dp"
-        android:layout_marginTop="337dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginRight="55dp"
-        android:layout_marginBottom="346dp"
+        android:background="#1D7373"
         android:text="@string/user_header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,14 +20,10 @@
 
     <Button
         android:id="@+id/driverBut"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="77dp"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="338dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginRight="103dp"
-        android:layout_marginBottom="345dp"
+        android:background="#1D7373"
         android:text="@string/driver_header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/userBut"
