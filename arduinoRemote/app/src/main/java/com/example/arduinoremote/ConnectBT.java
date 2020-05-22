@@ -28,6 +28,8 @@ public class ConnectBT extends AsyncTask<Void, Void, Void> {
 
     public static double[] getCoordinates(){
         return coordinates;
+        // Maja's coordinates for testing purposes
+        // return new double[]{57.866918, 11.960844};
     }
 
     @Override
