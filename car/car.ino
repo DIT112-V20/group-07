@@ -79,8 +79,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly
-  
-  //parsedGPS();
+  car.update();
+  parsedGPS();
   evaluateMethod();
 }
 
