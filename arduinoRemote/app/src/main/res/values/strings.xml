@@ -15,4 +15,6 @@
     <string name="steering_character">t</string>
     <string name="base_value">0</string>
     <string name="title_activity_maps">Map</string>
+    <string name="driver_header">Driver</string>
+    <string name="user_header">User</string>
 </resources>

@@ -170,8 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              break;
 
             case R.id.mapBut:
-                Intent intent = new Intent(this, MapsActivity.class);
-                startActivity(intent);
+                Intent intentMap = new Intent(this, MapsActivity.class);
+                startActivity(intentMap);
         }
     }
 }
