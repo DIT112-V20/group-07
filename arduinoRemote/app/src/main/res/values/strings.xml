@@ -4,11 +4,11 @@
     <string name="forward_mode_but">Forward</string>
     <string name="forward_but">Start</string>
     <string name="stop_but">Stop</string>
-    <string name="gear_string">Gear: </string>
+    <string name="gear_string"/>
     <string name="connect">Connect to Bluetooth</string>
-    <string name="gear_header">Gear: 0</string>
-    <string name="angle_header">Angle: 0°</string>
-    <string name="angle_string">Angle: </string>
+    <string name="gear_header">0</string>
+    <string name="angle_header">0°</string>
+    <string name="angle_string"/>
     <string name="angle_symbol">°</string>
     <string name="forward_speed_character">v</string>
     <string name="backward_speed_character">b</string>

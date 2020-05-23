@@ -3,4 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="bloodred">#A00D00</color>
+    <color name="blackblue">#17202A</color>
+    <color name="jamesGold">#AA9D7C</color>
+    <color name="jamesBeige">#B2A591</color>
+    <color name="jamesGray">#9B948C</color>
 </resources>
