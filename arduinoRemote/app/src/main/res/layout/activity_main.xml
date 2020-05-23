@@ -11,7 +11,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="123dp"
             android:layout_height="61dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/veryroundbutton"
             android:text="@string/stop_but"
             android:backgroundTint="@color/bloodred"
@@ -19,7 +19,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent" android:textColorHighlight="#FFFFFF"/>
-
     <Button
             android:id="@+id/reverseBut"
             style="@style/Widget.AppCompat.Button.Colored"
@@ -46,21 +45,21 @@
             app:layout_constraintBottom_toTopOf="@+id/stopBut"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.34"
-            app:layout_constraintStart_toStartOf="parent" android:textColor="@color/quantum_greywhite1000"/>
+            app:layout_constraintStart_toStartOf="parent" />
     <SeekBar
-        android:id="@+id/steeringBar"
-        style="@style/Widget.AppCompat.SeekBar"
-        android:layout_width="288dp"
-        android:layout_height="31dp"
-        android:layout_marginBottom="133dp"
-        android:visibility="visible"
-        android:thumbTint="@color/jamesBeige"
-        android:progressTint="@android:color/transparent"
-        android:progressBackgroundTint="#000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/steeringBar"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="288dp"
+            android:layout_height="31dp"
+            android:layout_marginBottom="133dp"
+            android:visibility="visible"
+            android:thumbTint="@color/jamesBeige"
+            android:progressTint="@android:color/transparent"
+            android:progressBackgroundTint="#000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -122,13 +121,11 @@
             android:text="@string/connect"
             android:textColor="#FFFFFF"
             android:backgroundTint="@color/jamesBeige"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.253"/>
-
+            app:layout_constraintBottom_toTopOf="@+id/forwardBut" app:layout_constraintVertical_bias="0.665"/>
     <Button
         android:id="@+id/mapBut"
         style="@style/Widget.AppCompat.Button.Colored"
@@ -143,12 +140,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.253" />
-    <Button
-            android:layout_width="429dp"
-            android:layout_height="98dp"
-            android:id="@+id/button2"
-            android:backgroundTint="#000"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
