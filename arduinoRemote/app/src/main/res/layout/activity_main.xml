@@ -7,56 +7,59 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/stopBut"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="123dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="15dp"
-        android:background="#FF4040"
-        android:text="@string/stop_but"
-        app:layout_constraintBottom_toTopOf="@+id/reverseBut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/stopBut"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="123dp"
+            android:layout_height="61dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/veryroundbutton"
+            android:text="@string/stop_but"
+            android:backgroundTint="@color/bloodred"
+            app:layout_constraintBottom_toTopOf="@+id/reverseBut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toStartOf="parent" android:textColorHighlight="#FFFFFF"/>
+    <Button
+            android:id="@+id/reverseBut"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="123dp"
+            android:layout_height="61dp"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/veryroundbutton"
+            android:text="@string/reverse_mode_but"
+            android:backgroundTint="@color/jamesBeige"
+            app:layout_constraintBottom_toTopOf="@+id/steeringText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-        android:id="@+id/reverseBut"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="123dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="45dp"
-        android:background="#1D7373"
-        android:text="@string/reverse_mode_but"
-        app:layout_constraintBottom_toTopOf="@+id/steeringText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/forwardBut"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="123dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="15dp"
-        android:background="#39E639"
-        android:text="@string/forward_but"
-        android:textColorLink="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/stopBut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent" />
-
+            android:id="@+id/forwardBut"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="123dp"
+            android:layout_height="61dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/veryroundbutton"
+            android:text="@string/forward_but"
+            android:backgroundTint="@color/jamesBeige"
+            app:layout_constraintBottom_toTopOf="@+id/stopBut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toStartOf="parent" />
     <SeekBar
-        android:id="@+id/steeringBar"
-        style="@style/Widget.AppCompat.SeekBar"
-        android:layout_width="288dp"
-        android:layout_height="31dp"
-        android:layout_marginBottom="133dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/steeringBar"
+            style="@style/Widget.AppCompat.SeekBar"
+            android:layout_width="288dp"
+            android:layout_height="31dp"
+            android:layout_marginBottom="133dp"
+            android:visibility="visible"
+            android:thumbTint="@color/jamesBeige"
+            android:progressTint="@android:color/transparent"
+            android:progressBackgroundTint="#000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -74,7 +77,9 @@
             android:layout_height="38dp"
             android:layout_gravity="center"
             android:rotation="270"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete" />
+            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:thumbTint="@color/jamesBeige"
+            android:progressTint="@color/jamesBeige"/>
     </FrameLayout>
 
     <TextView
@@ -108,27 +113,27 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/connectBut"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="123dp"
-        android:layout_height="61dp"
-        android:background="#1D7373"
-        android:text="@string/connect"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.253" />
-
+            android:id="@+id/connectBut"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="123dp"
+            android:layout_height="61dp"
+            android:background="@drawable/veryroundbutton"
+            android:text="@string/connect"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/jamesBeige"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/forwardBut" app:layout_constraintVertical_bias="0.665"/>
     <Button
         android:id="@+id/mapBut"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/roundedbutton"
+        android:background="@drawable/veryroundbutton"
         android:text="@string/title_activity_maps"
+        android:backgroundTint="@color/jamesGray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.923"
