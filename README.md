@@ -1,4 +1,6 @@
 # group-07 ![CI App](https://github.com/DIT112-V20/group-07/workflows/CI%20App/badge.svg) ![CI Arduino](https://github.com/DIT112-V20/group-07/workflows/CI%20Arduino/badge.svg)
+
+## Project
 WHAT?
 We will create a last-mile delivery service. The deliveries will be handled by an autonomous car that can be tracked on an interface  that will be part of our system. 
 
@@ -16,4 +18,20 @@ We plan on using the following technologies to complete this project:
 - the Arduino IDE and the Smart Car Shield library to control the car
 - Sensors to be able to detect obstacles in the car’s path
 - Something similar to the GPRS+GPS Quadband Module for Arduino to track the localisation of the car
-- Android studio or something similar to create the application that is able to track the localisation of the car.  
+- Android studio or something similar to create the application that is able to track the localisation of the car.
+
+## Resources
+
+## SetUp
+
+### Smartcar
+
+### App
+
+## Developer
+- Oscar Hjern
+- Mikael Höije
+- Jakob Sixten
+- Johann Tammen
+- Maximilien Uddgren
+- Maja Wennroth
