@@ -20,6 +20,7 @@ We plan on using the following technologies to complete this project:
 - Something similar to the GPRS+GPS Quadband Module for Arduino to track the localisation of the car
 - Android studio or something similar to create the application that is able to track the localisation of the car.
 
+
 ## Resources
 ### Hardware
 - 1x Smartcar
@@ -38,11 +39,33 @@ We plan on using the following technologies to complete this project:
 - Wire library
 - [TinyGPSPlus](https://github.com/mikalhart/TinyGPSPlus) library
 
-## SetUp
+## Setup
 
 ### Smartcar
 
 ### App
+- Google play services SDK
+- Enable USB debugging on your android phone and connect it via USB to your computer to be able to download the application.
+
+### User Manual
+![Selection](https://imgur.com/6mIvXZ3)
+- This is where you can choose to either be a Driver or a user.
+- By pushing the "Driver"-button you will be able to controll the car by the controls displayed below.
+- By pushing the "User"- button it will send you to the Users screen.
+
+![Controller](https://imgur.com/FDhab4b)
+- You can connect to the car by using the "CONNECT TO BLUETOOTH"-button.
+- By pressing the "START"-button you will make the car drive forward in gear 1.
+- By pressing the "STOP"-button the car will stop.
+- If you want the car to go in reverse, you press the "Reverse"-button.
+- To control the car's speed and steering use the two sliders on the screen.
+- To open the map, click the "MAP"-button.
+
+![User] (https://imgur.com/csQ97ym)
+- Here you can see the car's location which is displayed by a green marker.
+- You can set the destination by either pressing on the map or entering the desired address on the search bar.
+- A path will automatically appear on the map between the car and the desired location.
+
 
 ## Developer
 - Oscar Hjern
