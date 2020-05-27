@@ -48,12 +48,12 @@ We plan on using the following technologies to complete this project:
 - Enable USB debugging on your android phone and connect it via USB to your computer to be able to download the application.
 
 ### User Manual
-![Selection](https://imgur.com/zAEGNVP)
-- This is where you can choose to either be a Driver or a user.
-- By pushing the "Driver"-button you will be able to controll the car by the controls displayed below.
-- By pushing the "User"- button it will send you to the Users screen.
+![Selection](https://i.imgur.com/zAEGNVP.jpg)
+- This is where you can choose to either be a driver or a user.
+- By pushing the "DRIVER"-button you will be able to control the car by using the controls displayed below.
+- By pushing the "USER"- button it will send you to the User's screen which is the map.
 
-![Controller](https://imgur.com/8RqL9Vr)
+![Controller](https://i.imgur.com/8RqL9Vr.jpg)
 - You can connect to the car by using the "CONNECT TO BLUETOOTH"-button.
 - By pressing the "START"-button you will make the car drive forward in gear 1.
 - By pressing the "STOP"-button the car will stop.
@@ -61,7 +61,7 @@ We plan on using the following technologies to complete this project:
 - To control the car's speed and steering use the two sliders on the screen.
 - To open the map, click the "MAP"-button.
 
-![User](https://imgur.com/nykkonX)
+![User](https://i.imgur.com/nykkonX.jpg)
 - Here you can see the car's location which is displayed by a green marker.
 - You can set the destination by either pressing on the map or entering the desired address on the search bar.
 - A path will automatically appear on the map between the car and the desired location.
