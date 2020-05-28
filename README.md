@@ -20,7 +20,6 @@ We plan on using the following technologies to complete this project:
 - Something similar to the GPRS+GPS Quadband Module for Arduino to track the localisation of the car
 - Android studio or something similar to create the application that is able to track the localisation of the car.
 
-
 ## Resources
 ### Hardware
 - 1x Smartcar
@@ -42,6 +41,24 @@ We plan on using the following technologies to complete this project:
 ## Setup
 
 ### Smartcar
+#### Sensors
+- Attach one ultrasonic sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
+- Attach one ultrasonic sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
+- >LIDAR SENSOR
+- Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
+
+#### Calibration
+- > ADD CALIBRATION
+
+#### Software
+- Go to the Arduino IDE's library manager and install the following libraries:
+    - Smartcar shield
+    - VL53L0X
+    - > BLUETOOTH SERIAL?
+    - > WIRE
+- Dowlonad the [TinyGPSPlus](https://github.com/mikalhart/TinyGPSPlus) library and include it to Arduino's library folder
+- Set the Board in the Arduino IDE to DOIT ESP32 DEVKIT 1
+- Compile and upload the code to the car
 
 ### App
 - Google play services SDK
