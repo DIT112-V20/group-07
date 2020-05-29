@@ -54,7 +54,7 @@ Sensors that need calibiration:
 - Gyroscope 
 - Odometer
 - Ultrasonic sensors
-- LIDAR SENSOR
+- MICRO LIDAR SENSOR
 
 Methods that need calibiration:
 - Forward 
