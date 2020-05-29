@@ -25,7 +25,7 @@ We plan on using the following technologies to complete this project:
 - 1x Smartcar
 - 2x Ultrasonic sensor
 - 1x Micro Lidar sensor
-- 2x Bread board
+- 2x Breadboard
 - 1x Neo gps 6m module
 - 1x Android Smartphone
 
