@@ -64,8 +64,6 @@ Methods that need calibiration:
 - Go to the Arduino IDE's library manager and install the following libraries:
     - Smartcar shield
     - VL53L0X
-    - > BLUETOOTH SERIAL?
-    - > WIRE
 - Dowlonad the [TinyGPSPlus](https://github.com/mikalhart/TinyGPSPlus) library and include it to Arduino's library folder
 - Set the Board in the Arduino IDE to DOIT ESP32 DEVKIT 1
 - Compile and upload the code to the car
