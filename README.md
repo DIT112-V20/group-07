@@ -44,7 +44,7 @@ We plan on using the following technologies to complete this project:
 #### Sensors
 - Attach one ultrasonic sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
 - Attach one ultrasonic sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
-- >LIDAR SENSOR
+- Attach one MICRO LIDAR SENSOR directly to the left side of the car
 - Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
 
 #### Calibration
