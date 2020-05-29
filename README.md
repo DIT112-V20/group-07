@@ -48,7 +48,17 @@ We plan on using the following technologies to complete this project:
 - Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
 
 #### Calibration
-- > ADD CALIBRATION
+To calibrate the car, please see the documentation provided by Platisd (https://github.com/platisd/smartcar_shield)
+
+Sensors that need calibiration: 
+- Gyroscope 
+- Odometer
+- Ultrasonic sensors
+- LIDAR SENSOR
+
+Methods that need calibiration:
+- Forward 
+- Backward
 
 #### Software
 - Go to the Arduino IDE's library manager and install the following libraries:
