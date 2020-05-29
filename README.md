@@ -92,7 +92,7 @@ Methods that need calibiration:
 - A path will automatically appear on the map between the car and the desired location.
 
 
-## Developer
+## Developers
 - Oscar Hjern
 - Mikael Höije
 - Jakob Sixten
