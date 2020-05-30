@@ -41,7 +41,7 @@ We plan on using the following technologies to complete this project:
 ## Setup
 
 ### Smartcar
-To set-up the car, please see the documentation provided by [@platisd](https://github.com/platisd):  [Smartcar gets an ESP32 upgrade](https://platis.solutions/blog/2020/02/16/smartcar-gets-an-esp32-upgrade/) and [Smartcar Library](https://github.com/platisd/smartcar_shield)
+To set-up the car, please see the documentation provided by [@platisd](https://github.com/platisd):  [_'Smartcar gets an ESP32 upgrade'_](https://platis.solutions/blog/2020/02/16/smartcar-gets-an-esp32-upgrade/) and [_'Smartcar Library'_](https://github.com/platisd/smartcar_shield)
 #### Sensors
 - Attach one Ultrasonic Sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
 - Attach one Ultrasonic Sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
@@ -49,7 +49,7 @@ To set-up the car, please see the documentation provided by [@platisd](https://g
 - Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
 
 #### Calibration
-To calibrate the car, please see the documentation provided by [@platisd](https://github.com/platisd): [Smartcar Library](https://github.com/platisd/smartcar_shield)
+To calibrate the car, please see the documentation provided by [@platisd](https://github.com/platisd): [_'Smartcar Library'_](https://github.com/platisd/smartcar_shield)
 
 Sensors that need to be calibrated: 
 - Gyroscope 
