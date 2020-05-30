@@ -1,5 +1,8 @@
 # group-07 ![CI App](https://github.com/DIT112-V20/group-07/workflows/CI%20App/badge.svg) ![CI Arduino](https://github.com/DIT112-V20/group-07/workflows/CI%20Arduino/badge.svg)
 
+## Demo Video
+- [Project007_Final_Demo](https://www.youtube.com/watch?v=PAH5nVPPHcs)
+
 ## Project
 ### WHAT?
 We will create a last-mile delivery service. The deliveries will be handled by an autonomous car that can be tracked on an interface  that will be part of our system. 
@@ -21,41 +24,51 @@ We plan on using the following technologies to complete this project:
 - Android studio or something similar to create the application that is able to track the localisation of the car.
 
 ## Resources
+To read more about the Smartcar, please see the documentation provided by [@platisd](https://github.com/platisd): [_'Smartcar gets an ESP32 upgrade'_](https://platis.solutions/blog/2020/02/16/smartcar-gets-an-esp32-upgrade/)
 ### Hardware
 - 1x Smartcar
-- 2x Ultrasonic sensor
-- 1x Micro Lidar sensor
+- 2x Ultrasonic Sensor
+- 1x Micro Lidar Sensor
 - 2x Breadboard
-- 1x Neo gps 6m module
+- 1x Neo GPS 6m Module
 - 1x Android Smartphone
 
 ### Software
 - Arduino IDE
 - Android Studio
-- Smartcar library
-- Bluetooth serial library
-- VL53L0X library
-- Wire library
+- Smartcar Library
+- Bluetooth Serial Library
+- VL53L0X Library
+- Wire Library
 - [TinyGPSPlus](https://github.com/mikalhart/TinyGPSPlus) library
 
 ## Setup
 
 ### Smartcar
+To set-up the car, please see the documentation provided by [@platisd](https://github.com/platisd): [_'Smartcar Library'_](https://github.com/platisd/smartcar_shield)
 #### Sensors
-- Attach one ultrasonic sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
-- Attach one ultrasonic sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
-- >LIDAR SENSOR
+- Attach one Ultrasonic Sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
+- Attach one Ultrasonic Sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
+- Attach one Micro Lidar Sensor directly to the left side of the car
 - Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
 
 #### Calibration
-- > ADD CALIBRATION
+To calibrate the car, please see the documentation provided by [@platisd](https://github.com/platisd): [_'Smartcar Library'_](https://github.com/platisd/smartcar_shield)
+
+Sensors that need to be calibrated: 
+- Gyroscope 
+- Odometer
+- Ultrasonic Sensors
+- Micro Lidar Sensro
+
+Methods that need calibration:
+- STEERING_OFFSET_FORWARD
+- STEERING_OFFSET_BAKWARDS
 
 #### Software
 - Go to the Arduino IDE's library manager and install the following libraries:
     - Smartcar shield
     - VL53L0X
-    - > BLUETOOTH SERIAL?
-    - > WIRE
 - Dowlonad the [TinyGPSPlus](https://github.com/mikalhart/TinyGPSPlus) library and include it to Arduino's library folder
 - Set the Board in the Arduino IDE to DOIT ESP32 DEVKIT 1
 - Compile and upload the code to the car
@@ -84,10 +97,10 @@ We plan on using the following technologies to complete this project:
 - A path will automatically appear on the map between the car and the desired location.
 
 
-## Developer
-- Oscar Hjern
-- Mikael Höije
-- Jakob Sixten
-- Johann Tammen
-- Maximilien Uddgren
-- Maja Wennroth
+## Developers
+- [Oscar Hjern](https://github.com/oscarhjern), SCRUM Master 
+- [Maja Wennroth](https://github.com/majawennroth), Car Responsible   
+- [Mikael Höije](https://github.com/mikaelhoije), App Guy 
+- [Jakob Sixten](https://github.com/sijakob), Connection Specialist 
+- [Johann Tammen](https://github.com/johann-tam), Git Master 
+- [Maximilien Uddgren](https://github.com/WhiteMaken), App Guy 
