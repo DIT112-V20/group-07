@@ -2,15 +2,11 @@
 
 ## Project
 ### WHAT?
-We will create a last-mile delivery service. The deliveries will be handled by an autonomous car that can be tracked on an interface  that will be part of our system. 
+This project works towards an automated last-mile delivery service. The vision is that an autonomous driving car delivers packages to a specified address. On top the end-user could see the driving process and ETA in a mobile application.\
+At this stage of development the car drives not fully autonomous, it still needs a human driver controlling the car with an android app. But, if the car detects an obstacle in front it is able to drive around it without input from the driver.\
+On the apps side, end users are able to select a delivery address on a map, and a driver can then see that address on a map in combination with a route towards the drop off location. 
 
-The application will show the customer:
-  1. The current location of the delivery vehicle. 
-  2. The delivery route.
-  3. The destination i.e. the customers chosen drop-off point.
-  4. Estimated time of arrival.
-
-### WHY?
+### WHY
 To make it easier for customers to get deliveries, since an autonomous delivery system does not have the constraints that a system using a human driver has, so deliveries can be made whenever the customer desires. Also making delivery of expensive goods  safer since, during transport, no human interaction will be necessary other than that of the customer.
 
 ### HOW?
