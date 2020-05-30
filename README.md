@@ -94,9 +94,9 @@ Methods that need calibration:
 
 
 ## Developers
-- Oscar Hjern, SCRUM Master 
-- Maja Wennroth, Car Wizard   
-- Mikael Höije, App Guy 
-- Jakob Sixten, Connection Specialist 
-- Johann Tammen, Git Master 
-- Maximilien Uddgren, App Guy 
+- [Oscar Hjern](https://github.com/oscarhjern), SCRUM Master 
+- [Maja Wennroth](https://github.com/majawennroth), Car Wizard   
+- [Mikael Höije](https://github.com/mikaelhoije), App Guy 
+- [Jakob Sixten](https://github.com/sijakob), Connection Specialist 
+- [Johann Tammen](https://github.com/johann-tam), Git Master 
+- [Maximilien Uddgren](https://github.com/WhiteMaken), App Guy 
