@@ -96,8 +96,11 @@ Methods that need calibration:
 
 ## Developers
 - [Oscar Hjern](https://github.com/oscarhjern), SCRUM Master 
-- [Maja Wennroth](https://github.com/majawennroth), Car Wizard   
+- [Maja Wennroth](https://github.com/majawennroth), Car Responsible   
 - [Mikael Höije](https://github.com/mikaelhoije), App Guy 
 - [Jakob Sixten](https://github.com/sijakob), Connection Specialist 
 - [Johann Tammen](https://github.com/johann-tam), Git Master 
 - [Maximilien Uddgren](https://github.com/WhiteMaken), App Guy 
+
+## Demo Video
+- [Project007_Final_Demo](https://www.youtube.com/watch?v=PAH5nVPPHcs)
