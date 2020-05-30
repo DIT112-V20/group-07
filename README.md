@@ -21,6 +21,7 @@ We plan on using the following technologies to complete this project:
 - Android studio or something similar to create the application that is able to track the localisation of the car.
 
 ## Resources
+To read more about the Smartcar, please see the documentation provided by [@platisd](https://github.com/platisd): [_'Smartcar gets an ESP32 upgrade'_](https://platis.solutions/blog/2020/02/16/smartcar-gets-an-esp32-upgrade/)
 ### Hardware
 - 1x Smartcar
 - 2x Ultrasonic Sensor
@@ -41,7 +42,7 @@ We plan on using the following technologies to complete this project:
 ## Setup
 
 ### Smartcar
-To set-up the car, please see the documentation provided by [@platisd](https://github.com/platisd):  [_'Smartcar gets an ESP32 upgrade'_](https://platis.solutions/blog/2020/02/16/smartcar-gets-an-esp32-upgrade/) and [_'Smartcar Library'_](https://github.com/platisd/smartcar_shield)
+To set-up the car, please see the documentation provided by [@platisd](https://github.com/platisd): [_'Smartcar Library'_](https://github.com/platisd/smartcar_shield)
 #### Sensors
 - Attach one Ultrasonic Sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
 - Attach one Ultrasonic Sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
