@@ -23,42 +23,43 @@ We plan on using the following technologies to complete this project:
 ## Resources
 ### Hardware
 - 1x Smartcar
-- 2x Ultrasonic sensor
-- 1x Micro Lidar sensor
+- 2x Ultrasonic Sensor
+- 1x Micro Lidar Sensor
 - 2x Breadboard
-- 1x Neo gps 6m module
+- 1x Neo GPS 6m Module
 - 1x Android Smartphone
 
 ### Software
 - Arduino IDE
 - Android Studio
-- Smartcar library
-- Bluetooth serial library
-- VL53L0X library
-- Wire library
+- Smartcar Library
+- Bluetooth Serial Library
+- VL53L0X Library
+- Wire Library
 - [TinyGPSPlus](https://github.com/mikalhart/TinyGPSPlus) library
 
 ## Setup
 
 ### Smartcar
+To set-up the car, please see the documentation provided by Platisd https://platis.solutions/blog/2020/02/16/smartcar-gets-an-esp32-upgrade/ and https://github.com/platisd/smartcar_shield
 #### Sensors
-- Attach one ultrasonic sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
-- Attach one ultrasonic sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
-- Attach one MICRO LIDAR SENSOR directly to the left side of the car
+- Attach one Ultrasonic Sensor to the front of the car, connect the trig pin to D19 & the echo pin to D5
+- Attach one Ultrasonic Sensor to the right side of the car, connect the trig pin to D33 & the echo pin to D18
+- Attach one Micro Lidar Sensor directly to the left side of the car
 - Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
 
 #### Calibration
 To calibrate the car, please see the documentation provided by Platisd (https://github.com/platisd/smartcar_shield)
 
-Sensors that need calibiration: 
+Sensors that need to be calibrated: 
 - Gyroscope 
 - Odometer
-- Ultrasonic sensors
-- MICRO LIDAR SENSOR
+- Ultrasonic Sensors
+- Micro Lidar Sensro
 
-Methods that need calibiration:
-- Forward 
-- Backward
+Methods that need calibration:
+- STEERING_OFFSET_FORWARD
+- STEERING_OFFSET_BAKWARDS
 
 #### Software
 - Go to the Arduino IDE's library manager and install the following libraries:
@@ -93,9 +94,9 @@ Methods that need calibiration:
 
 
 ## Developers
-- Oscar Hjern
-- Mikael Höije
-- Jakob Sixten
-- Johann Tammen
-- Maximilien Uddgren
-- Maja Wennroth
+- Oscar Hjern, SCRUM Master 
+- Maja Wennroth, Car Wizard   
+- Mikael Höije, App Guy 
+- Jakob Sixten, Connection Specialist 
+- Johann Tammen, Git Master 
+- Maximilien Uddgren, App Guy 
