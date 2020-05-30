@@ -1,7 +1,7 @@
 # group-07 ![CI App](https://github.com/DIT112-V20/group-07/workflows/CI%20App/badge.svg) ![CI Arduino](https://github.com/DIT112-V20/group-07/workflows/CI%20Arduino/badge.svg)
 
 ## Demo Video
-- [Project007_Final_Demo](https://www.youtube.com/watch?v=PAH5nVPPHcs)
+- [Project 007 Demo Video](https://www.youtube.com/watch?v=PAH5nVPPHcs)
 
 ## Project
 ### WHAT?
@@ -92,11 +92,13 @@ Methods that need calibration:
 - You can set the destination by either pressing on the map or entering the desired address on the search bar.
 - A path will automatically appear on the map between the car and the desired location.
 
-
 ## Developers
 - [Oscar Hjern](https://github.com/oscarhjern), SCRUM Master 
-- [Maja Wennroth](https://github.com/majawennroth), Car Responsible   
+- [Maja Wennroth](https://github.com/majawennroth), Responsible of Car    
 - [Mikael Höije](https://github.com/mikaelhoije), App Guy 
 - [Jakob Sixten](https://github.com/sijakob), Connection Specialist 
 - [Johann Tammen](https://github.com/johann-tam), Git Master 
 - [Maximilien Uddgren](https://github.com/WhiteMaken), App Guy 
+
+## Contact 
+To contact the team with questions regarding the 007-project, please create an issue and a team member will assist you with your inquiry. To contact the team regarding questions of the Smartcar platform, please direct your questions towards [@platisd](https://github.com/platisd). To come in contact with individual team members we have linked their profiles on this page. The rest is up to you, good luck! 
