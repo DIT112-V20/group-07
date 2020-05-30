@@ -49,7 +49,7 @@ To set-up the car, please see the documentation provided by "@platisd" https://p
 - Attach the GPS module to the car and connect the GPS RXPin to D16 and the TXPin to D17
 
 #### Calibration
-To calibrate the car, please see the documentation provided by "@platisd" (https://github.com/platisd/smartcar_shield)
+To calibrate the car, please see the documentation provided by [@platisd] (https://github.com/platisd) (https://github.com/platisd/smartcar_shield)
 
 Sensors that need to be calibrated: 
 - Gyroscope 
