@@ -1,5 +1,8 @@
 # group-07 ![CI App](https://github.com/DIT112-V20/group-07/workflows/CI%20App/badge.svg) ![CI Arduino](https://github.com/DIT112-V20/group-07/workflows/CI%20Arduino/badge.svg)
 
+## Demo Video
+- [Project007_Final_Demo](https://www.youtube.com/watch?v=PAH5nVPPHcs)
+
 ## Project
 ### WHAT?
 We will create a last-mile delivery service. The deliveries will be handled by an autonomous car that can be tracked on an interface  that will be part of our system. 
@@ -101,6 +104,3 @@ Methods that need calibration:
 - [Jakob Sixten](https://github.com/sijakob), Connection Specialist 
 - [Johann Tammen](https://github.com/johann-tam), Git Master 
 - [Maximilien Uddgren](https://github.com/WhiteMaken), App Guy 
-
-## Demo Video
-- [Project007_Final_Demo](https://www.youtube.com/watch?v=PAH5nVPPHcs)
