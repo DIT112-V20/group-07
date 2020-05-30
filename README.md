@@ -1,5 +1,7 @@
 # group-07 ![CI App](https://github.com/DIT112-V20/group-07/workflows/CI%20App/badge.svg) ![CI Arduino](https://github.com/DIT112-V20/group-07/workflows/CI%20Arduino/badge.svg)
 
+![TeamLogo](https://cdn.discordapp.com/attachments/713314260222214226/714407241121398794/007.png)
+
 ## Demo Video
 - [Project 007 Demo Video](https://www.youtube.com/watch?v=PAH5nVPPHcs)
 
